@@ -14,6 +14,8 @@ from bs4 import SoupStrainer
 from django.core.cache import cache
 from allbus.thebus.utilities.cache.decorators import cacheable
 
+import gtfs_realtime_pb2
+
 
 class TheBusException(Exception):
     pass
@@ -86,6 +88,25 @@ class TheBusClient(object):
                 {'text': text, 'date': date, 'link': node.next['href']})
 
         return parsed_alerts
+
+    def get_gtfs_service_alerts(self):
+        endpoint = 'http://webapps.thebus.org/transitdata/production/servicealerts/'
+        return self.get_gtfs_data(endpoint)
+
+    def get_gtfs_trip_updates(self):
+        endpoint = 'http://webapps.thebus.org/transitdata/production/tripupdates/'
+        return self.get_gtfs_data(endpoint)
+
+    def get_gtfs_vehicle_location(self):
+        endpoint = 'http://webapps.thebus.org/transitdata/production/vehloc/'
+        return self.get_gtfs_data(endpoint)
+
+    def get_gtfs_data(self, endpoint):
+        gtfs_data = self.call_endpoint(endpoint)
+
+        gtfs_message = gtfs_realtime_pb2.FeedMessage()
+        gtfs_message.ParseFromString(gtfs_data)
+        return gtfs_message
 
     def call_endpoint(self, endpoint, callback=None):
         request = urllib2.Request(endpoint)
@@ -185,8 +206,12 @@ def parse_vehicle_xml_to_dict(response):
 
 
 def main():
-    client = TheBusClient()
-    print client.track_vehicle(917, parse_vehicle_xml_to_dict)
+    pass
+    # client = TheBusClient('')
+    # print client.get_gtfs_service_alerts()
+    # print client.get_gtfs_trip_updates()
+    # print client.get_gtfs_vehicle_location()
+    # print client.track_vehicle(917, parse_vehicle_xml_to_dict)
 
     # print client.get_arrivals(125, parse_arrival_xml_to_dict)
     # print client.get_rider_alerts()
