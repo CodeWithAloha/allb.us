@@ -37,7 +37,6 @@ django-redis==4.2.0
 redis>=2.10.0
 
 
-
 # Your custom requirements go here
 structlog==15.2.0
 BeautifulSoup4==4.4.0

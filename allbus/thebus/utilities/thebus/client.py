@@ -8,8 +8,8 @@ import re
 from datetime import datetime
 from datetime import timedelta
 
-from BeautifulSoup import BeautifulStoneSoup
-from BeautifulSoup import SoupStrainer
+from bs4 import BeautifulSoup
+from bs4 import SoupStrainer
 
 from django.core.cache import cache
 from allbus.thebus.utilities.cache.decorators import cacheable
@@ -64,7 +64,7 @@ class TheBusClient(object):
         response.close()
 
         alert_strainer = SoupStrainer(id='rideralerts')
-        soup = BeautifulStoneSoup(data, parseOnlyThese=alert_strainer)
+        soup = BeautifulSoup(data, parseOnlyThese=alert_strainer)
         alerts = soup.findAll('li')
 
         parsed_alerts = []
@@ -116,7 +116,7 @@ def tags_to_dict(soup, tags):
 
 
 def parse_arrival_xml_to_dict(response):
-    soup = BeautifulStoneSoup(response.read())
+    soup = BeautifulSoup(response.read())
     output = tags_to_dict(soup, [('stop',), ('timestamp',), ('errorMessage',)])
 
     try:
@@ -142,7 +142,7 @@ def parse_arrival_xml_to_dict(response):
             arrival['server_ts'] = datetime.fromtimestamp(
                 time.mktime(arrival_server_time))
 
-            # HACK - Need to do this because of *ahem*dumb*ahem* API. If the server_ts is PM,
+            # HACK - Need to do this because of API. If the server_ts is PM,
             # and the arrivals are coming in AM, this indicates that it's
             # overnight.  Need to add one day to the server_ts, otherwise, all
             # these arrivals will look late.
@@ -161,7 +161,7 @@ def parse_arrival_xml_to_dict(response):
 
 
 def parse_vehicle_xml_to_dict(response):
-    soup = BeautifulStoneSoup(response.read())
+    soup = BeautifulSoup(response.read())
     output = tags_to_dict(soup, [('timestamp',), ('errorMessage',)])
 
     output['server_ts'] = datetime.fromtimestamp(
