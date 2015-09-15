@@ -57,3 +57,9 @@ node_modules/
 
 # config
 config/settings/**/*
+
+# redis
+dump.rdb
+
+# pyenv
+.python-version
