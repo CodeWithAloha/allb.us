@@ -33,37 +33,20 @@ class TheBusClient(object):
         self.domain = domain
         self.timeout = timeout
 
-    def get_endpoint(self, path='', query_params=None):
-        normalized_path = path + '/' if path and path[-1] != '/' else path
-        endpoint = "{0[scheme]}://{0[domain]}{0[path]}".format(
-            {'scheme': 'http',
-             'domain': self.domain,
-             'path': normalized_path})
-        if query_params:
-            endpoint = endpoint + '?' + urllib.urlencode(query_params)
-        return endpoint
-
     @cacheable(cache=cache, key=None, ttl=5)
     def get_arrivals(self, stop_id, callback=None):
         query_params = {'key': self.api_key, 'stop': stop_id}
         endpoint = self.get_endpoint('/arrivals', query_params)
-        return self.call_endpoint(endpoint, callback)
+        return self._call_endpoint(endpoint, callback)
 
     def track_vehicle(self, vehicle_id, callback=None):
         query_params = {'key': self.api_key, 'num': vehicle_id}
         endpoint = self.get_endpoint('/vehicle', query_params)
-        return self.call_endpoint(endpoint, callback)
+        return self._call_endpoint(endpoint, callback)
 
     def get_rider_alerts(self):
         endpoint = 'http://thebus.org/RiderAlerts_Detail.asp?l=eng'
-        request = urllib2.Request(endpoint)
-        try:
-            response = urllib2.urlopen(request)
-        except urllib2.URLError:
-            raise TheBusException("Unable to contact %s" % endpoint)
-
-        data = response.read()
-        response.close()
+        data = self._call_endpoint(endpoint)
 
         alert_strainer = SoupStrainer(id='rideralerts')
         soup = BeautifulSoup(data, parseOnlyThese=alert_strainer)
@@ -91,24 +74,34 @@ class TheBusClient(object):
 
     def get_gtfs_service_alerts(self):
         endpoint = 'http://webapps.thebus.org/transitdata/production/servicealerts/'
-        return self.get_gtfs_data(endpoint)
+        return self._get_gtfs_data(endpoint)
 
     def get_gtfs_trip_updates(self):
         endpoint = 'http://webapps.thebus.org/transitdata/production/tripupdates/'
-        return self.get_gtfs_data(endpoint)
+        return self._get_gtfs_data(endpoint)
 
     def get_gtfs_vehicle_location(self):
         endpoint = 'http://webapps.thebus.org/transitdata/production/vehloc/'
-        return self.get_gtfs_data(endpoint)
+        return self._get_gtfs_data(endpoint)
 
-    def get_gtfs_data(self, endpoint):
-        gtfs_data = self.call_endpoint(endpoint)
+    def _get_gtfs_data(self, endpoint):
+        gtfs_data = self._call_endpoint(endpoint)
 
         gtfs_message = gtfs_realtime_pb2.FeedMessage()
         gtfs_message.ParseFromString(gtfs_data)
         return gtfs_message
 
-    def call_endpoint(self, endpoint, callback=None):
+    def _get_endpoint(self, path='', query_params=None):
+        normalized_path = path + '/' if path and path[-1] != '/' else path
+        endpoint = "{0[scheme]}://{0[domain]}{0[path]}".format(
+            {'scheme': 'http',
+             'domain': self.domain,
+             'path': normalized_path})
+        if query_params:
+            endpoint = endpoint + '?' + urllib.urlencode(query_params)
+        return endpoint
+
+    def _call_endpoint(self, endpoint, callback=None):
         request = urllib2.Request(endpoint)
         try:
             response = urllib2.urlopen(request)
@@ -117,7 +110,6 @@ class TheBusClient(object):
 
         payload = callback(response) if callback else response.read()
         response.close()
-
         return payload
 
     def __str__(self):

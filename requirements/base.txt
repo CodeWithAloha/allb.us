@@ -1,5 +1,5 @@
 # Bleeding edge Django
-django==1.8.4
+django==1.6.11
 
 # Configuration
 django-environ==0.3.0
@@ -39,5 +39,6 @@ redis>=2.10.0
 
 # Your custom requirements go here
 BeautifulSoup4==4.4.0
+multigtfs==0.4.3
 protobuf==2.6.1
 structlog==15.2.0
