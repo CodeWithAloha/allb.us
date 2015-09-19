@@ -63,3 +63,6 @@ dump.rdb
 
 # pyenv
 .python-version
+
+# vagrant
+.vagrant
