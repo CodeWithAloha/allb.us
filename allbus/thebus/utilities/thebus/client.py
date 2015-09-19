@@ -202,7 +202,11 @@ def main():
     # client = TheBusClient('')
     # print client.get_gtfs_service_alerts()
     # print client.get_gtfs_trip_updates()
-    # print client.get_gtfs_vehicle_location()
+    # locations = client.get_gtfs_vehicle_location()
+    # for e in locations.entity:
+    #     value = datetime.fromtimestamp(
+    #         e.vehicle.timestamp)
+    #     print(value.strftime('%Y-%m-%d %H:%M:%S'))
     # print client.track_vehicle(917, parse_vehicle_xml_to_dict)
 
     # print client.get_arrivals(125, parse_arrival_xml_to_dict)
