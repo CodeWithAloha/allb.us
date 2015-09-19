@@ -41,6 +41,24 @@ postgresql:
     - name: allbus
       password: allbus
 
+redis:
+  package: redis-server
+  version: 2:2.8.4-2
+  config_dir: /etc/redis
+  user: redis
+  group: redis
+  config:
+    num_databases: 16
+    password:
+    pid_file: /var/run/redis.pid
+    port: 6379
+    working_dir: /var/db/redis
+
+env:
+  proxies:
+    http_proxy:
+    https_proxy:
+    ftp_proxy:
 django_env:
   DJANGO_SETTINGS_MODULE: 'config.settings.vagrant'
   DJANGO_SECRET_KEY: 'codeforhawaiiisamazing'
