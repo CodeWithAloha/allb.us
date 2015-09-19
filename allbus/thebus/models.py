@@ -39,31 +39,6 @@ class Route(AuditableModel):
         return u"%s" % (self.short_name)
 
 
-class Service(AuditableModel):
-
-    id = models.BigIntegerField(editable=False, primary_key=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    MON = models.BooleanField()
-    TUE = models.BooleanField()
-    WED = models.BooleanField()
-    THU = models.BooleanField()
-    FRI = models.BooleanField()
-    SAT = models.BooleanField()
-    SUN = models.BooleanField()
-
-    def __unicode__(self):
-        return u"%s" % (self.id)
-
-
-class Shape(AuditableModel):
-
-    shape_id = models.CharField(max_length=32)
-    latitude = models.FloatField(null=False, blank=False)
-    longitude = models.FloatField(null=False, blank=False)
-    sequence = models.PositiveSmallIntegerField()
-
-
 class Trip(AuditableModel):
 
     id = models.BigIntegerField(editable=False, primary_key=True)
@@ -71,7 +46,6 @@ class Trip(AuditableModel):
     block_id = models.CharField(max_length=32)
     direction = models.SmallIntegerField()
     headsign = models.CharField(max_length=64)
-    service = models.ForeignKey(Service)
     shape_id = models.CharField(max_length=64)
 
     def __unicode__(self):
