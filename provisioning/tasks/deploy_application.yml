@@ -1,0 +1,134 @@
+---
+  - name: allbus | deploy_application.yml | ensure deploy path
+    file: state=directory path={{ ad_deploy_to }}
+
+  - name: allbus | deploy_application.yml | ensure app path
+    file: state=directory path="{{ ad_deploy_to }}/app"
+
+  - name: allbus | deploy_application.yml | set app_path fact
+    set_fact: ad_app_path="{{ ad_deploy_to }}/app"
+
+  - name: allbus | deploy_application.yml | ensure releases path
+    file: state=directory path="{{ ad_app_path }}/releases"
+
+  - name: allbus | deploy_application.yml | set releases_path fact
+    set_fact: ad_releases_path="{{ ad_app_path }}/releases"
+
+  - name: allbus | deploy_application.yml | ensure logs path
+    file: state=directory path="{{ ad_deploy_to }}/logs"
+
+  - name: allbus | deploy_application.yml | ensure logs_path fact
+    set_fact: ad_logs_path="{{ ad_deploy_to }}/logs"
+
+  - name: allbus | deploy_application.yml | get release timestamp (UTC)
+    local_action: command date -u +%Y%m%d%H%M%SZ
+    sudo: no
+    register: ad_release_timestamp_utc
+
+  - name: allbus | deploy_application.yml | set release version from release timestamp if release version is not set
+    set_fact: ad_release_version="{{ ad_release_timestamp_utc.stdout }}"
+    when: ad_release_version is not defined or ad_release_version is none or ad_release_version|trim == ''
+
+  - name: allbus | deploy_application.yml | get release directory
+    command: echo "{{ ad_releases_path }}/{{ ad_release_version }}"
+    register: ad_release_path
+
+  - name: allbus | deploy_application.yml | create release directory
+    file: state=directory path={{ ad_release_path.stdout }}
+    when: ad_release_path|success
+
+  - name: allbus | deploy_application.yml | deploy code via strategy
+    include: "{{ playbook_dir }}/tasks/deploy_code_strategy/{{ ad_deploy_code_strategy | default('copy_tarball') }}.yml"
+    when: ad_release_path|success
+
+  - name: allbus | deploy_application.yml | create REV file from release version
+    command: echo {{ ad_release_version }} > {{ ad_release_path.stdout }}/REV
+    when: ad_release_path|success
+
+  - name: allbus | deploy_application.yml | ensure venvs path
+    file: state=directory path="{{ ad_deploy_to }}/venvs"
+
+  - name: allbus | deploy_application.yml | set venvs fact
+    set_fact: ad_venvs_path="{{ ad_deploy_to }}/venvs"
+
+  - name: allbus | deploy_application.yml | ensure venvs releases path
+    file: state=directory path="{{ ad_venvs_path }}/releases"
+
+  - name: allbus | deploy_application.yml | set venvs releases fact
+    set_fact: ad_venvs_releases_path="{{ ad_venvs_path }}/releases"
+
+  - name: allbus | deploy_application.yml | get venv release directory
+    command: echo "{{ ad_venvs_releases_path }}/{{ ad_release_version }}"
+    register: ad_venv_release_path
+
+  - name: allbus | deploy_application.yml | create venv release directory
+    file: state=directory path={{ ad_venv_release_path.stdout }}
+    when: ad_venv_release_path|success
+
+  - name: allbus | deploy_application.yml | install dependencies
+    apt: name={{ item.package }}={{ item.version }} state=present update_cache=yes cache_valid_time=3600
+    with_items: ad_dependencies
+
+  - name: allbus | deploy_application.yml | install virtualenv
+    command: /usr/bin/virtualenv --no-site-packages --distribute {{ ad_venv_release_path.stdout }} creates={{ ad_venv_release_path.stdout }}/bin/activate
+    when: ad_venv_release_path|success
+
+  - name: allbus | deploy_application.yml | install requirements into virtualenv
+    pip: requirements="{{ ad_release_path.stdout }}/requirements.txt" virtualenv="{{ ad_venv_release_path.stdout }}" state=present
+
+  - name: allbus | deploy_application.yml | update current venv symlink
+    file: state=link path="{{ ad_venvs_path }}/current" src={{ ad_venv_release_path.stdout }}
+
+  - name: allbus | deploy_application.yml | update current application symlink
+    file: state=link path="{{ ad_app_path }}/current" src={{ ad_release_path.stdout }}
+
+  - name: allbus | deploy_application.yml | clean releases
+    shell: ls -1dt {{ ad_releases_path}}/* | tail -n +$(({{ ad_releases_to_keep }} + 1)) | xargs rm -rf
+    when: ad_releases_to_keep > 0
+
+# Last mile configuration
+  - name: allbus | deploy_application.yml | install database template
+    command: "sudo -u postgres {{ ad_release_path.stdout }}/etc/create_template_postgis-2.1.sh"
+    ignore_errors: yes
+
+  - name: allbus | deploy_application.yml | ensure allbus database
+    postgresql_db:
+      name: "allbus_db"
+      owner: "allbus"
+      encoding: "UTF-8"
+      lc_collate: "en_US.UTF-8"
+      lc_ctype: "en_US.UTF-8"
+      port: "{{postgresql.port}}"
+      template: "template_postgis"
+      state: present
+      login_user: "{{ postgresql.admin.username }}"
+    sudo: yes
+    sudo_user: "{{ postgresql.admin.username }}"
+
+  - name: allbus | install_postgresql.yml | ensure privileges
+    postgresql_user:
+      name: "allbus"
+      db: "allbus_db"
+      port: "{{postgresql.port}}"
+      priv: "ALL"
+      state: present
+      login_user: "{{ postgresql.admin.username }}"
+    sudo: yes
+    sudo_user: "{{ postgresql.admin.username }}"
+
+  - name: allbus | deploy_application.yml | run syncdb
+    django_manage:
+      app_path: "{{ ad_release_path.stdout }}"
+      virtualenv: "{{ ad_venv_release_path.stdout }}"
+      command: syncdb
+    environment: "{{ django_env }}"
+
+  - name: allbus | deploy_application.yml | run collect static
+    django_manage:
+      app_path: "{{ ad_release_path.stdout }}"
+      virtualenv: "{{ ad_venv_release_path.stdout }}"
+      command: collectstatic
+    environment: "{{ django_env }}"
+
+  - name: allbus | last_mile.yml | ensure permissions are set to allbus
+    file: state=directory recurse="yes" path="{{ ad_deploy_to }}" owner="{{ application.user }}" group="{{ application.group }}"

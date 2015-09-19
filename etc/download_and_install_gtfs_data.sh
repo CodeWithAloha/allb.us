@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 now=$(date +%Y%m%d-%hh%mm%ss)
-gtfs_filepath="$TMPDIR/thebus_gtfs_$now.zip"
+gtfs_filepath="/tmp/thebus_gtfs_$now.zip"
 
 curl "http://webapps.thebus.org/transitdata/Production/google_transit.zip" --output $gtfs_filepath
 
