@@ -10,7 +10,8 @@ from django.contrib import admin
 
 
 urlpatterns = [
-    # url(r'^', include("allbus.thebus.urls")),
+    # Allbus urls
+    url(r'^', include("allbus.thebus.urls")),
 
     # Django Admin
     url(r'^admin/', include(admin.site.urls)),
@@ -19,9 +20,10 @@ urlpatterns = [
     url(r'^users/', include("allbus.users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
 
-    url(r'^$', TemplateView.as_view(template_name="explore/home.html"),
+    # GTFS Explorer
+    url(r'^explore$', TemplateView.as_view(template_name="explore/home.html"),
         name='home'),
-    url(r'explore', include('allbus.exploreapp.urls'))
+    url(r'^explore/', include('allbus.exploreapp.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
