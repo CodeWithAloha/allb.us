@@ -129,7 +129,7 @@ def tags_to_dict(soup, tags):
 
 
 def parse_arrival_xml_to_dict(response):
-    soup = BeautifulSoup(response.read())
+    soup = BeautifulSoup(response.read(), "html.parser")
     output = tags_to_dict(soup, [('stop',), ('timestamp',), ('errorMessage',)])
 
     try:
