@@ -36,12 +36,12 @@ class TheBusClient(object):
     @cacheable(cache=cache, key=None, ttl=5)
     def get_arrivals(self, stop_id, callback=None):
         query_params = {'key': self.api_key, 'stop': stop_id}
-        endpoint = self.get_endpoint('/arrivals', query_params)
+        endpoint = self._get_endpoint('/arrivals', query_params)
         return self._call_endpoint(endpoint, callback)
 
     def track_vehicle(self, vehicle_id, callback=None):
         query_params = {'key': self.api_key, 'num': vehicle_id}
-        endpoint = self.get_endpoint('/vehicle', query_params)
+        endpoint = self._get_endpoint('/vehicle', query_params)
         return self._call_endpoint(endpoint, callback)
 
     def get_rider_alerts(self):
