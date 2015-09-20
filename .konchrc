@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+# vi: set ft=python :
+
+import konch
+from allbus.thebus.gtfs_thebus_models import TheBusTrip
+
+# Available options:
+#   'context', 'banner', 'shell', 'prompt',
+#   'hide_context', 'ipy_extensions', 'ipy_autoreload'
+konch.config({
+    'context': {
+        'trips': TheBusTrip
+    },
+    'shell': 'ipython',
+    'ipy_autoreload': True
+})
+
+
+def setup():
+    pass
+
+
+def teardown():
+    pass
