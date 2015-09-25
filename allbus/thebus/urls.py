@@ -6,6 +6,7 @@ from django.conf.urls import url
 from .views import www_views
 from .views import stop_views
 from .views import bus_views
+from .views import gtfs_bus_views
 from .views import route_views
 
 
@@ -35,6 +36,8 @@ urlpatterns = [
 
     # bus related views
     url(r'^buses/(?P<bus>[\d]+).json$', bus_views.bus_details, name="bus_details"),
+
+    url(r'^new/buses/(?P<bus>[\d]+).json$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
 ]
 
 # vim: filetype=python
