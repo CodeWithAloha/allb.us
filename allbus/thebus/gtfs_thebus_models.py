@@ -1,8 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from gtfs_thebus_managers import TheBusStopManager
 from gtfs_thebus_managers import TheBusTripManager
+from multigtfs.models import Stop
 from multigtfs.models import Trip
+
+
+class TheBusStop(Stop):
+
+    class Meta:
+        proxy = True
+
+    objects = TheBusStopManager()
+
+    def to_dict(self):
+        return {
+            'code': self.code,
+            'name': self.name,
+            'latitude': self.point.y,
+            'longitude': self.point.x,
+            'url': self.url
+        }
 
 
 class TheBusTrip(Trip):

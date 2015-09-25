@@ -8,6 +8,10 @@ import operator
 import pytz
 
 
+class TheBusStopManager(models.Manager):
+    pass
+
+
 class TheBusTripManager(models.Manager):
 
     DIRECTION = {"west": 0, "east": 1}

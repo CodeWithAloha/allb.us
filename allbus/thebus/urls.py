@@ -5,10 +5,10 @@ from django.conf.urls import url
 
 from .views import www_views
 from .views import stop_views
-from .views import bus_views
-from .views import gtfs_bus_views
 from .views import route_views
 
+from .views import gtfs_bus_views
+from .views import gtfs_stop_views
 
 urlpatterns = [
     # www related views
@@ -34,10 +34,17 @@ urlpatterns = [
     url(r'^(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/$', stop_views.stop_details,
         name="stop_details"),
 
-    # bus related views
-    url(r'^buses/(?P<bus>[\d]+).json$', bus_views.bus_details, name="bus_details"),
+    # converted
 
-    url(r'^new/buses/(?P<bus>[\d]+).json$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
+    # stop related views
+    url(r'^new/(?P<stop>\d+)/$', gtfs_stop_views.stop_details, {'route': None},
+        name="stop_details_no_route"),
+
+    url(r'^new/(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
+        name="stop_details"),
+
+    # bus related views
+    url(r'^buses/(?P<bus>[\d]+).json$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
 ]
 
 # vim: filetype=python
