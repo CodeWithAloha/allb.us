@@ -3,7 +3,6 @@
 
 from django.conf.urls import url
 
-from .views import www_views
 from .views import stop_views
 from .views import route_views
 
@@ -11,11 +10,6 @@ from .views import gtfs_bus_views
 from .views import gtfs_stop_views
 
 urlpatterns = [
-    # www related views
-    url(r'^$', www_views.slash, name="slash"),
-    url(r'^placard/$', www_views.placard, name="placard"),
-    url(r'^up/$', www_views.about, name="about"),
-
     # route related views
     url(r'^routes/(?P<route>[a-zA-Z0-9]+)/(?P<direction>(west|east))/$',
         route_views.route_map, name="route_map"),
