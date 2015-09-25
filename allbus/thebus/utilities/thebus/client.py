@@ -13,8 +13,10 @@ from bs4 import SoupStrainer
 
 from django.core.cache import cache
 from allbus.thebus.utilities.cache.decorators import cacheable
+from allbus.thebus.utilities.xml.xml2json import elem_to_internal
 
 import gtfs_realtime_pb2
+import xml.etree.cElementTree as ET
 
 
 class TheBusException(Exception):
@@ -195,6 +197,19 @@ def parse_vehicle_xml_to_dict(response):
 
     output['vehicles'] = vehicles
     return output
+
+
+def parse_xml_to_dict(response):
+    options = {
+        'strip_ns': True,
+        'strip_nl': True,
+        'pretty': True,
+        'strip_text': True
+    }
+    elem = ET.fromstring(response.read())
+    if hasattr(elem, 'getroot'):
+        elem = elem.getroot()
+    return elem_to_internal(elem, options)
 
 
 def main():

@@ -6,16 +6,16 @@ from django.conf import settings
 from django.http import HttpResponse
 
 import json
+from ..utilities.thebus.client import parse_xml_to_dict
 from ..utilities.thebus.client import TheBusClient
-from ..utilities.thebus.client import parse_vehicle_xml_to_dict
 from ..utilities.time.utilities import naive_to_timestamp
 
 
 def bus_details(request, bus):
     c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
-    v_dict = c.track_vehicle(int(bus), parse_vehicle_xml_to_dict)
-    v_list = v_dict.get('vehicles', None)
-    vehicle = v_list[0] if v_list and len(v_list) == 1 else {}
+    v_json = c.track_vehicle(int(bus), parse_xml_to_dict)
+    vehicles = v_json.get('vehicles', None)
+    vehicle = vehicles.get('vehicle', None)
 
     if 'last_message' in vehicle:
         naive_datetime = datetime.datetime.strptime(
