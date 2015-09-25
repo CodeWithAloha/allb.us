@@ -39,6 +39,7 @@ redis>=2.10.0
 
 # Your custom requirements go here
 BeautifulSoup4==4.4.0
+lxml==3.4.4
 multigtfs==0.4.3
 protobuf==2.6.1
 structlog==15.2.0
