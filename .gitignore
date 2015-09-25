@@ -66,3 +66,6 @@ dump.rdb
 
 # vagrant
 .vagrant
+
+# python-rope
+.ropeproject
