@@ -6,9 +6,9 @@ from django.conf import settings
 from django.http import HttpResponse
 
 import json
-import pytz
 from ..utilities.thebus.client import TheBusClient
 from ..utilities.thebus.client import parse_vehicle_xml_to_dict
+from ..utilities.time.utilities import naive_to_timestamp
 
 
 def bus_details(request, bus):
@@ -18,14 +18,11 @@ def bus_details(request, bus):
     vehicle = v_list[0] if v_list and len(v_list) == 1 else {}
 
     if 'last_message' in vehicle:
-        hst = pytz.timezone('Pacific/Honolulu')
         naive_datetime = datetime.datetime.strptime(
             vehicle['last_message'],
             "%m/%d/%Y %I:%M:%S %p")
-        hst_datetime = hst.localize(naive_datetime, is_dst=None)
-        utc_epoch_datetime = datetime.datetime(1970, 1, 1, tzinfo=pytz.utc)
-        vehicle['last_message_ts'] = \
-            int((hst_datetime - utc_epoch_datetime).total_seconds())
+        vehicle['last_message_ts'] = naive_to_timestamp(
+            naive_datetime, tz='Pacific/Honolulu')
 
     return HttpResponse(json.dumps(vehicle), mimetype="application/json")
 
