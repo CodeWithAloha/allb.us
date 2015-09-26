@@ -26,8 +26,10 @@ def stop_details(request, stop, route=None):
     output = {
         'stop': s.to_dict(),
         'arrivals': arrivals,
-        'route': route
     }
+
+    if route:
+        output['route'] = route
 
     return HttpResponse(json.dumps(output), mimetype="application/json")
 
