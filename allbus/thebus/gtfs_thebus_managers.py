@@ -3,7 +3,6 @@
 
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
-from django.db import models
 from django.db.models import Q
 import datetime
 from multigtfs.models.base import BaseManager
