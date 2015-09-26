@@ -8,6 +8,13 @@ A tiny bus app that's finally being open sourced. Come check us out @ http://all
 
 ## Installation
 
+You'll need to make sure Python (2.7.X) and Ansible 2.0+ is installed on your machine to run the
+Vagrant provisioner.
+
+* `git clone https://github.com/ansible/ansible.git`
+* `cd ansible`
+* `python setup.py install`
+
 ### Vagrant
 
 * `vagrant up`
