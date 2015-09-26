@@ -31,7 +31,7 @@ def stop_details(request, stop_id, route=None):
     if route:
         output['route'] = route
 
-    output['route_names'] = TheBusStop.objects.get_route_names(stop_id)
+    output['route_names'] = list(TheBusStop.objects.get_route_names(stop_id))
 
     return HttpResponse(json.dumps(output), mimetype="application/json")
 
