@@ -3,25 +3,20 @@
 
 from django.conf.urls import url
 
-from .views import stop_views
-
 from .views import gtfs_bus_views
 from .views import gtfs_stop_views
 
 urlpatterns = [
     # stop related views
-    url(r'^stops/$', stop_views.stop_search, name="stop_search"),
+    url(r'^stops/$', gtfs_stop_views.stop_search, name="stop_search"),
 
-    # converted
-
-    # stop related views
-    url(r'^new/(?P<stop_id>\d+)/$', gtfs_stop_views.stop_details, {'route': None},
+    url(r'^(?P<stop_id>\d+)/$', gtfs_stop_views.stop_details, {'route': None},
         name="stop_details_no_route"),
 
-    url(r'^new/(?P<stop_id>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
+    url(r'^(?P<stop_id>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
         name="stop_details"),
 
-    url(r'^new/es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/$',
+    url(r'^es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/$',
         gtfs_stop_views.stop_nearby, name="stop_nearby"),
 
     # bus related views

@@ -1,15 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from collections import Counter
 import datetime
 from django.conf import settings
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from ..gtfs_thebus_models import TheBusStop
 import json
+import operator
 from ..utilities.thebus.client import parse_xml_to_dict
 from ..utilities.thebus.client import TheBusClient
 from ..utilities.time.utilities import naive_to_timestamp
+
+
+STRIP_CONNECTORS = ['or', 'and', 'near', '+', '&']
 
 
 def stop_details(request, stop_id, route=None):
@@ -53,5 +59,17 @@ def stop_nearby(request, latitude, longitude):
     stops_as_json = [s.to_dict() for s in stops] if stops else []
     return HttpResponse(json.dumps(stops_as_json), mimetype="application/json")
 
+
+def stop_search(request):
+    query = request.GET.get('q', None)
+    stops = TheBusStop.objects.search(query) if query else None
+    counter = Counter(stops)
+
+    output = {
+        'stops': [s.to_dict() for s, c in counter.most_common()],
+        'query': query
+    }
+
+    return HttpResponse(json.dumps(output), mimetype="application/json")
 
 # vim: filetype=python

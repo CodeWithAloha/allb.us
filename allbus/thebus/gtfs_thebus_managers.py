@@ -5,12 +5,15 @@ from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.db.models import Q
 import datetime
+from itertools import chain
 from multigtfs.models.base import BaseManager
 import operator
 import pytz
 
 
 class TheBusStopManager(BaseManager):
+
+    STRIP_CONNECTORS = ['or', 'and', 'near', '+', '&']
 
     def get_route_names(self, stop_id):
         return self.\
@@ -24,6 +27,15 @@ class TheBusStopManager(BaseManager):
         return self.filter(
             point__distance_lte=(pt, D(mi=distance_in_miles))).distance(
                 pt).order_by('distance')
+
+    def search(self, search_term):
+        normalized_search = search_term.lower().strip()
+        normalized_terms = [term for term in normalized_search.split(' ')
+                            if term not in self.STRIP_CONNECTORS]
+        queries = []
+        for normalized_term in normalized_terms:
+            queries.append(self.filter(Q(name__icontains=normalized_term)))
+        return chain.from_iterable(queries)
 
 
 class TheBusTripManager(BaseManager):
