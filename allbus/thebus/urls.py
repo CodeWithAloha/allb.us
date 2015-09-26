@@ -37,6 +37,9 @@ urlpatterns = [
     url(r'^new/(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
         name="stop_details"),
 
+    url(r'^new/es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/$',
+        gtfs_stop_views.stop_nearby, name="stop_nearby"),
+
     # bus related views
     url(r'^buses/(?P<bus>[\d]+).json$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
 ]

@@ -1,18 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 from django.db import models
 from django.db.models import Q
 import datetime
+from multigtfs.models.base import BaseManager
 import operator
 import pytz
 
 
-class TheBusStopManager(models.Manager):
-    pass
+class TheBusStopManager(BaseManager):
+
+    def nearby(self, latitude, longitude, distance_in_miles=1):
+        pt = Point(longitude, latitude)
+        return self.filter(
+            point__distance_lte=(pt, D(mi=distance_in_miles))).distance(
+                pt).order_by('distance')
 
 
-class TheBusTripManager(models.Manager):
+class TheBusTripManager(BaseManager):
 
     DIRECTION = {"west": 0, "east": 1}
 

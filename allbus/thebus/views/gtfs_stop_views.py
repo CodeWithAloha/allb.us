@@ -33,4 +33,11 @@ def stop_details(request, stop, route=None):
 
     return HttpResponse(json.dumps(output), mimetype="application/json")
 
+
+def stop_nearby(request, latitude, longitude):
+    stops = TheBusStop.objects.nearby(float(latitude), float(longitude))
+    stops_as_json = [s.to_dict() for s in stops] if stops else []
+    return HttpResponse(json.dumps(stops_as_json), mimetype="application/json")
+
+
 # vim: filetype=python
