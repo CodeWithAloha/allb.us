@@ -8,10 +8,8 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 
-import json
 import re
 import urllib
 
@@ -28,26 +26,6 @@ THEBUS_API_KEY = getattr(settings, 'THEBUS_API_KEY', None)
 STRIP_CONNECTORS = ['or', 'and', '+', '&']
 
 STOP_REG_EX = re.compile('^\s*\d+\s*$')
-
-
-def stop_near(request):
-    return render_to_response('stop_near.html', {},
-                              context_instance=RequestContext(request))
-
-
-@csrf_exempt
-def stop_nearby(request, latitude, longitude):
-    def _encode_stop(obj):
-        if isinstance(obj, Stop):
-            return {
-                'latitude': obj.latitude,
-                'longitude': obj.longitude,
-                'code': obj.code,
-                'name': obj.name,
-            }
-    output = {}
-    output['stops'] = Stop.objects.nearby(float(latitude), float(longitude))
-    return HttpResponse(json.dumps(output, default=_encode_stop), mimetype="application/json")
 
 
 @csrf_exempt

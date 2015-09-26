@@ -16,9 +16,6 @@ urlpatterns = [
 
     # stop related views
     url(r'^stops/$', stop_views.stop_search, name="stop_search"),
-    url(r'^es/$', stop_views.stop_near, name="stop_near"),
-    url(r'^es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/$',
-        stop_views.stop_nearby, name="stop_nearby"),
 
     url(r'^(?P<stop>\d+)/$', stop_views.stop_details, {'route': None},
         name="stop_details_no_route"),
