@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -8,6 +9,7 @@ from ..gtfs_thebus_models import TheBusStop
 import json
 from ..utilities.thebus.client import parse_xml_to_dict
 from ..utilities.thebus.client import TheBusClient
+from ..utilities.time.utilities import naive_to_timestamp
 
 
 def stop_details(request, stop_id, route=None):
@@ -26,7 +28,17 @@ def stop_details(request, stop_id, route=None):
     output = {
         'stop': s.to_dict(),
         'arrivals': arrivals,
+        'servertime': stopTimes.get('timestamp')
     }
+
+    try:
+        naive_datetime = datetime.datetime.strptime(
+            output['servertime'],
+            "%m/%d/%Y %I:%M:%S %p")
+        output['servertime_ts'] = naive_to_timestamp(
+            naive_datetime, tz='Pacific/Honolulu')
+    except:
+        pass
 
     if route:
         output['route'] = route
