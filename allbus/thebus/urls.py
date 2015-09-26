@@ -16,22 +16,16 @@ urlpatterns = [
 
     # stop related views
     url(r'^stops/$', stop_views.stop_search, name="stop_search"),
-
-    url(r'^(?P<stop>\d+)/$', stop_views.stop_details, {'route': None},
-        name="stop_details_no_route"),
     url(r'^(?P<stop>\d+)/map/$', stop_views.stop_map, name="stop_maps"),
     url(r'^(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/bus/(?P<bus>\d+)/(?P<direction>(west|east))/$', stop_views.stop_bus_map, name="stop_bus_map"),
-
-    url(r'^(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/$', stop_views.stop_details,
-        name="stop_details"),
 
     # converted
 
     # stop related views
-    url(r'^new/(?P<stop>\d+)/$', gtfs_stop_views.stop_details, {'route': None},
+    url(r'^new/(?P<stop_id>\d+)/$', gtfs_stop_views.stop_details, {'route': None},
         name="stop_details_no_route"),
 
-    url(r'^new/(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
+    url(r'^new/(?P<stop_id>\d+):(?P<route>[a-zA-Z0-9]+)/$', gtfs_stop_views.stop_details,
         name="stop_details"),
 
     url(r'^new/es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/$',

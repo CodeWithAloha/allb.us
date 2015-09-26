@@ -16,7 +16,7 @@ class TheBusStop(Stop):
 
     def to_dict(self):
         return {
-            'code': self.code,
+            'stop_id': self.stop_id,
             'name': self.name,
             'latitude': self.point.y,
             'longitude': self.point.x,

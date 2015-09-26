@@ -12,6 +12,13 @@ import pytz
 
 class TheBusStopManager(BaseManager):
 
+    def get_route_names(self, stop_id):
+        return self.\
+            get(stop_id=stop_id).\
+            stoptime_set.\
+            all().\
+            values_list('trip__route__short_name', flat=True).distinct()
+
     def nearby(self, latitude, longitude, distance_in_miles=1):
         pt = Point(longitude, latitude)
         return self.filter(

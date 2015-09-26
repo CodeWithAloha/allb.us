@@ -10,10 +10,10 @@ from ..utilities.thebus.client import parse_xml_to_dict
 from ..utilities.thebus.client import TheBusClient
 
 
-def stop_details(request, stop, route=None):
+def stop_details(request, stop_id, route=None):
     c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
-    s = get_object_or_404(TheBusStop, code=stop)
-    a = c.get_arrivals(int(stop), parse_xml_to_dict)
+    s = get_object_or_404(TheBusStop, stop_id=stop_id)
+    a = c.get_arrivals(int(stop_id), parse_xml_to_dict)
 
     stopTimes = a.get('stopTimes', None)
     arrivals = stopTimes.get('arrival', None) if stopTimes else None
@@ -30,6 +30,8 @@ def stop_details(request, stop, route=None):
 
     if route:
         output['route'] = route
+
+    output['route_names'] = TheBusStop.objects.get_route_names(stop_id)
 
     return HttpResponse(json.dumps(output), mimetype="application/json")
 
