@@ -20,7 +20,7 @@ urlpatterns = [
         gtfs_stop_views.stop_nearby, name="stop_nearby"),
 
     # bus related views
-    url(r'^buses/(?P<bus>[\d]+).json$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
+    url(r'^buses/(?P<bus>[\d]+)$', gtfs_bus_views.bus_details, name="gtfs_bus_details"),
 ]
 
 # vim: filetype=python
