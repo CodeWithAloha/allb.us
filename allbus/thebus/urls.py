@@ -16,8 +16,6 @@ urlpatterns = [
 
     # stop related views
     url(r'^stops/$', stop_views.stop_search, name="stop_search"),
-    url(r'^(?P<stop>\d+)/map/$', stop_views.stop_map, name="stop_maps"),
-    url(r'^(?P<stop>\d+):(?P<route>[a-zA-Z0-9]+)/bus/(?P<bus>\d+)/(?P<direction>(west|east))/$', stop_views.stop_bus_map, name="stop_bus_map"),
 
     # converted
 
