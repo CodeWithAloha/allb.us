@@ -3,6 +3,7 @@
 
 from gtfs_thebus_managers import TheBusStopManager
 from gtfs_thebus_managers import TheBusTripManager
+import json
 from multigtfs.models import Stop
 from multigtfs.models import Trip
 
@@ -54,6 +55,13 @@ class TheBusTrip(Trip):
             return list(self.stoptime_set.all())[stop_id_index + 1].stop
         else:
             return None
+
+    def to_dict(self):
+        return {
+            'trip_id': self.trip_id,
+            'geojson': json.loads(self.geometry.geojson),
+            'headsign': self.headsign
+        }
 
     def _get_index_of_stop_id_in_trip(self, stop_id):
         stop_id_index = [
