@@ -69,3 +69,8 @@ dump.rdb
 
 # python-rope
 .ropeproject
+
+# konch
+.konchrc
+
+
