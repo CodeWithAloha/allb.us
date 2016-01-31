@@ -73,7 +73,8 @@ dump.rdb
 # konch
 .konchrc
 
-# bower
+# static files
 staticfiles/
 
-
+# bower
+allbus/static/bower_components
