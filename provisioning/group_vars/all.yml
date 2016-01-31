@@ -97,3 +97,7 @@ ad_dependencies:
     version: '1.11.4-1'
   - package: 'python-dev'
     version: '2.7.5-5ubuntu3'
+  - package: 'libxml2-dev'
+    version: '2.9.1+dfsg1-3ubuntu4.7'
+  - package: 'libxslt1-dev'
+    version: '1.1.28-2build1'
