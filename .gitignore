@@ -73,4 +73,7 @@ dump.rdb
 # konch
 .konchrc
 
+# bower
+staticfiles/
+
 
