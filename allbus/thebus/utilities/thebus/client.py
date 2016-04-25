@@ -9,7 +9,6 @@ from datetime import datetime
 from datetime import timedelta
 
 from bs4 import BeautifulSoup
-from bs4 import SoupStrainer
 
 from django.core.cache import cache
 from allbus.thebus.utilities.cache.decorators import cacheable
@@ -35,7 +34,7 @@ class TheBusClient(object):
         self.domain = domain
         self.timeout = timeout
 
-    @cacheable(cache=cache, key=None, ttl=5)
+    @cacheable(cache=cache, key=None, ttl=10)
     def get_arrivals(self, stop_id, callback=None):
         query_params = {'key': self.api_key, 'stop': stop_id}
         endpoint = self._get_endpoint('/arrivals', query_params)
@@ -45,34 +44,6 @@ class TheBusClient(object):
         query_params = {'key': self.api_key, 'num': vehicle_id}
         endpoint = self._get_endpoint('/vehicle', query_params)
         return self._call_endpoint(endpoint, callback)
-
-    def get_rider_alerts(self):
-        endpoint = 'http://thebus.org/RiderAlerts_Detail.asp?l=eng'
-        data = self._call_endpoint(endpoint)
-
-        alert_strainer = SoupStrainer(id='rideralerts')
-        soup = BeautifulSoup(data, parseOnlyThese=alert_strainer)
-        alerts = soup.findAll('li')
-
-        parsed_alerts = []
-
-        for node in alerts:
-            text = node.text.strip()
-            date = ''
-            has_match = DATE_MATCHER.match(text)
-
-            if has_match:
-                text = has_match.group('title').strip()
-                date = has_match.group('date').strip()
-
-            # Clean up text of stray commas
-            if text[-1] in (',', '-'):
-                text = text[:-1]
-
-            parsed_alerts.append(
-                {'text': text, 'date': date, 'link': node.next['href']})
-
-        return parsed_alerts
 
     def get_gtfs_service_alerts(self):
         endpoint = 'http://webapps.thebus.org/transitdata/production/servicealerts/'
