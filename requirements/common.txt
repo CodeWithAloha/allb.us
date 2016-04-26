@@ -20,3 +20,6 @@ psycopg2
 
 # logging
 structlog
+
+# multigtfs
+https://github.com/tulsawebdevs/django-multi-gtfs/archive/master.zip
