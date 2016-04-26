@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<ul class="table-view">
+  <li class="table-view-cell">
+  </li>
+</ul>
 
 <ul class="table-view">
   {% for arrival in  arrivals %}
   <li class="table-view-cell">
     <a class="navigate-right">
-    <div class="route">
-        <div class="number">{{ arrival.route }}</div>
-        <div class="bus">
+    <div class="route pull-left">
+        <h1>{{ arrival.route }}</h1>
+        <p class="bus">
             {% if arrival.vehicle == '???' %}
             No GPS
             {% else %}
             Bus {{ arrival.vehicle }}
             {% endif %}
-        </div>
+        </p>
     </div>
-    <div class="info">
-        <p class="headsign ui-li-desc">{{ arrival.headsign }}</p>
+    <div class="info pull-left">
+        <h4 class="headsign">{{ arrival.headsign }}</h4>
         <p class="arrival_time ui-li-desc">
         <span class="label wait">{{ arrival.stopTime }}</span>
         </p>
