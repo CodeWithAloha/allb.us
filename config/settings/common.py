@@ -6,7 +6,7 @@ import os
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
-APPS_DIR = ROOT_DIR.path('stoqs')
+APPS_DIR = ROOT_DIR.path('allbus')
 
 env = environ.Env()
 
@@ -63,7 +63,9 @@ class Common(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [
+                APPS_DIR.path('templates'),
+            ],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -101,9 +103,19 @@ class Common(Configuration):
     USE_TZ = True
 
     # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
+    STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 
     STATIC_URL = '/static/'
+
+    STATICFILES_DIRS = (
+        str(APPS_DIR.path('static')),
+    )
+
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    )
+
     MEDIA_URL = '/media/'
 
     GEOS_LIBRARY_PATH = env("DJANGO_GEOS_LIBRARY_PATH", default='')
