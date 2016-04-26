@@ -26,6 +26,14 @@ Vagrant provisioner.
 * `./download_and_install_gtfs_data.sh`
 * Open your browser to http://localhost:50808/explore/feed
 
+# TODO
+
+Here are things that still need to be done:
+
+* Need to hook in a modern front end
+* Need to internationalize it
+* Need to hook in a websocket implementation to bring in gtfs real-time feed
+
 # License
 
 BSD

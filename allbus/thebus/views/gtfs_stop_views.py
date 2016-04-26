@@ -4,12 +4,11 @@
 from collections import Counter
 import datetime
 from django.conf import settings
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from ..gtfs_thebus_models import TheBusStop
 import json
-import operator
 from ..utilities.thebus.client import parse_xml_to_dict
 from ..utilities.thebus.client import TheBusClient
 from ..utilities.time.utilities import naive_to_timestamp
@@ -51,7 +50,8 @@ def stop_details(request, stop_id, route=None):
 
     output['route_names'] = list(TheBusStop.objects.get_route_names(stop_id))
 
-    return HttpResponse(json.dumps(output), mimetype="application/json")
+    #return HttpResponse(json.dumps(output), mimetype="application/json")
+    return render(request, 'stops/details.html', output)
 
 
 def stop_nearby(request, latitude, longitude):
