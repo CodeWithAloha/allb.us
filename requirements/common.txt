@@ -1,0 +1,22 @@
+# django
+django==1.9.5
+
+# helpers
+django-extensions
+
+# configuration
+django-environ
+django-configurations
+
+# timezone
+pytz
+
+# redis
+django-redis
+redis
+
+# database
+psycopg2
+
+# logging
+structlog
