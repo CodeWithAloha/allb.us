@@ -16,10 +16,6 @@ urlpatterns = [
     # Django Admin
     url(r'^admin/', include(admin.site.urls)),
 
-    # User management
-    url(r'^users/', include("allbus.users.urls", namespace="users")),
-    url(r'^accounts/', include('allauth.urls')),
-
     # GTFS Explorer
     url(r'^explore$', TemplateView.as_view(template_name="explore/home.html"),
         name='home'),
