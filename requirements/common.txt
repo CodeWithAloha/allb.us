@@ -23,3 +23,8 @@ structlog
 
 # multigtfs
 https://github.com/tulsawebdevs/django-multi-gtfs/archive/master.zip
+
+# css compressor
+django-storages-redux
+django_compressor
+django-libsass
