@@ -37,6 +37,7 @@ class Common(Configuration):
     )
 
     THIRD_PARTY_APPS = (
+        'compressor',
         'multigtfs',
     )
 
@@ -114,6 +115,7 @@ class Common(Configuration):
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+        'compressor.finders.CompressorFinder',
     )
 
     MEDIA_URL = '/media/'
@@ -121,5 +123,10 @@ class Common(Configuration):
     GEOS_LIBRARY_PATH = env("DJANGO_GEOS_LIBRARY_PATH", default='')
     GDAL_LIBRARY_PATH = env("DJANGO_GDAL_LIBRARY_PATH", default='')
     POSTGIS_VERSION = env("DJANGO_POSTGIS_VERSION", default=('',))
+
+    COMPRESS_ENABLED = env("DJANGO_COMPRESS_ENABLED", default=True)
+    COMPRESS_PRECOMPILERS = (
+        ('text/x-scss', 'django_libsass.SassCompiler'),
+    )
 
     THEBUS_API_CLIENT_TOKEN = env('THEBUS_API_CLIENT_TOKEN', default=None)
