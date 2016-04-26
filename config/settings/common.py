@@ -42,6 +42,7 @@ class Common(Configuration):
 
     LOCAL_APPS = (
         'allbus.thebus',
+        'allbus.exploreapp',
     )
 
     INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -75,7 +76,7 @@ class Common(Configuration):
         },
     ]
 
-    WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+    WSGI_APPLICATION = 'config.wsgi.application'
 
     # Database
     # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
@@ -103,6 +104,7 @@ class Common(Configuration):
     # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
 
     STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
 
     GEOS_LIBRARY_PATH = env("DJANGO_GEOS_LIBRARY_PATH", default='')
     GDAL_LIBRARY_PATH = env("DJANGO_GDAL_LIBRARY_PATH", default='')
