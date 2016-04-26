@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
+{% load compress %}{% load staticfiles i18n %}<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -15,10 +15,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <!-- Include the compiled Ratchet CSS -->
+    {% compress css %}
     {% block css %}
-    <link href="{% static 'css/ratchet.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/ratchet.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'scss/project.scss' %}" rel="stylesheet" type="text/x-scss"/>
     {% endblock css %}
+    {% endcompress %}
   </head>
   <body>
     <header class="bar bar-nav">
@@ -29,8 +31,10 @@
         {% block content %}{% endblock content %}
     </div>
 
+    {% compress js %}
     {% block javascript %}
         <script src="{% static 'js/ratchet.min.js' %}"></script>
     {% endblock javascript %}
+    {% endcompress %}
   </body>
 </html>
