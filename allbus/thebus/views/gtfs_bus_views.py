@@ -3,6 +3,7 @@
 
 import datetime
 from django.conf import settings
+from django.http import Http404
 from django.http import HttpResponse
 
 import json
@@ -17,13 +18,16 @@ def bus_details(request, bus):
     vehicles = v_json.get('vehicles', None)
     vehicle = vehicles.get('vehicle', None)
 
-    if 'last_message' in vehicle:
-        naive_datetime = datetime.datetime.strptime(
-            vehicle['last_message'],
-            "%m/%d/%Y %I:%M:%S %p")
-        vehicle['last_message_ts'] = naive_to_timestamp(
-            naive_datetime, tz='Pacific/Honolulu')
+    if vehicle:
+        if 'last_message' in vehicle:
+            naive_datetime = datetime.datetime.strptime(
+                vehicle['last_message'],
+                "%m/%d/%Y %I:%M:%S %p")
+            vehicle['last_message_ts'] = naive_to_timestamp(
+                naive_datetime, tz='Pacific/Honolulu')
 
-    return HttpResponse(json.dumps(vehicle), mimetype="application/json")
+        return HttpResponse(json.dumps(vehicle), mimetype="application/json")
+    else:
+        raise Http404("Unable to find Bus {}".format(str(bus)))
 
 # vim: filetype=python
