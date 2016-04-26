@@ -24,7 +24,7 @@
   </head>
   <body>
     <header class="bar bar-nav">
-        <h1 class="title">AllBus</h1>
+        <h1 class="title">{% block page_title %}AllBus{% endblock page_title %}</h1>
     </header>
 
     <div class="content">
@@ -32,9 +32,12 @@
     </div>
 
     {% compress js %}
-    {% block javascript %}
+    {% block compressed-js %}
         <script src="{% static 'js/ratchet.min.js' %}"></script>
-    {% endblock javascript %}
+    {% endblock compressed-js %}
     {% endcompress %}
+
+    {% block inline-js %}
+    {% endblock inline-js %}
   </body>
 </html>

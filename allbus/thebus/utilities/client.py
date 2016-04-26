@@ -114,8 +114,7 @@ def parse_arrival_xml_to_dict(response):
     try:
         server_ts_date = output['timestamp'].split()[0]
         output['server_ts'] = datetime.fromtimestamp(
-            time.mktime(
-                time.strptime(output['timestamp'], "%m/%d/%Y %I:%M:%S %p")))
+            time.mktime(time.strptime(output['timestamp'], "%m/%d/%Y %I:%M:%S %p")))
 
         arrivals = []
 
@@ -151,6 +150,28 @@ def parse_arrival_xml_to_dict(response):
         output['arrivals'] = arrivals
     except:
         pass
+    return output
+
+
+def parse_vehicle_xml_to_dict(response):
+    soup = BeautifulSoup(response.read())
+    output = tags_to_dict(soup, [('timestamp',), ('errorMessage',)])
+
+    output['server_ts'] = datetime.fromtimestamp(
+        time.mktime(time.strptime(output['timestamp'], "%m/%d/%Y %I:%M:%S %p")))
+
+    vehicles = []
+
+    vehicles_xml = soup.findAll('vehicles')
+
+    for vehicle_xml in vehicles_xml:
+        vehicle = tags_to_dict(
+            vehicle_xml,
+            [('number',), ('driver',), ('latitude',), ('longitude',), ('adherence',), ('last_message',)])
+
+        vehicles.append(vehicle)
+
+    output['vehicles'] = vehicles
     return output
 
 

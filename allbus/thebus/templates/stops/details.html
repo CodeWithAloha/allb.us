@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 
+{% block page_title %}
+Stop {{ stop.stop_id }} @ {{ stop.name }}
+{% endblock page_title %}
+
 {% block content %}
 <ul class="table-view">
   <li class="table-view-cell">
+  {% for route_name in route_names %}
+  {{ route_name }}
+  {% endfor %}
   </li>
 </ul>
 
 <ul class="table-view">
   {% for arrival in  arrivals %}
   <li class="table-view-cell">
-    <a class="navigate-right">
+    {% if arrival.vehicle != '???' %}
+    <a class="navigate-right" href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}" data-transition="slide-in">
+    {% endif %}
     <div class="route pull-left">
         <h1>{{ arrival.route }}</h1>
         <p class="bus">
@@ -26,7 +35,9 @@
         <span class="label wait">{{ arrival.stopTime }}</span>
         </p>
     </div>
+    {% if arrival.vehicle != '???' %}
     </a>
+    {% endif %}
   </li>
   {% endfor %}
 </ul>

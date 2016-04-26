@@ -8,10 +8,12 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from ..models import TheBusStop
+from ..models import TheBusTrip
 import json
+from ..utilities.client import parse_vehicle_xml_to_dict
 from ..utilities.client import parse_xml_to_dict
 from ..utilities.client import TheBusClient
-from ..utilities.time import naive_to_timestamp
+from ..utilities.time_utilities import naive_to_timestamp
 
 
 STRIP_CONNECTORS = ['or', 'and', 'near', '+', '&']
@@ -50,7 +52,6 @@ def stop_details(request, stop_id, route=None):
 
     output['route_names'] = list(TheBusStop.objects.get_route_names(stop_id))
 
-    #return HttpResponse(json.dumps(output), mimetype="application/json")
     return render(request, 'stops/details.html', output)
 
 
@@ -71,5 +72,21 @@ def stop_search(request):
     }
 
     return HttpResponse(json.dumps(output), mimetype="application/json")
+
+
+def stop_bus_map(request, stop_id, route, bus, trip_id):
+    c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
+    s = get_object_or_404(TheBusStop, stop_id=stop_id)
+    v = c.track_vehicle(int(bus), parse_vehicle_xml_to_dict)
+
+    vehicle = v.get('vehicles', None)
+    vehicle = vehicle[0] if len(vehicle) == 1 else vehicle
+
+    trip = TheBusTrip.objects.get(trip_id=trip_id)
+    stops = trip.get_stops()
+
+    output = {'stop': s, 'vehicle': vehicle, 'trip': trip, 'stops': stops}
+    return render(request, 'stops/stop_bus_map.html', output)
+
 
 # vim: filetype=python

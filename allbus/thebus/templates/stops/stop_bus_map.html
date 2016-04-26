@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load compress %}{% load staticfiles i18n %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'js/leaflet/leaflet.css' %}" rel="stylesheet"/>
+{% endblock css %}
+
+{% block page_title %}
+Stop {{ stop.stop_id }} @ {{ stop.name }}
+{% endblock page_title %}
+
+{% block content %}
+
+<div id="map"></div>
+
+{% endblock content %}
+
+{% block compressed-js %}
+    {{ block.super }}
+    <script src="{% static 'js/leaflet/leaflet.js' %}"></script>
+{% endblock compressed-js %}
+
+{% block inline-js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var map;
+        var markers = [];
+        var stop_coordinates = {
+            "latitude": {{ stop.point.y }},
+            "longitude": {{ stop.point.x }}
+        };
+
+        function initialize_map() {
+            map = L.map('map');
+            map.setView(
+                    L.latLng(
+                        stop_coordinates["latitude"],
+                        stop_coordinates["longitude"]), 16);
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+            }).addTo(map);
+            var geoJsonStyle = {
+                "color": "#ff7800",
+                "weight": 2,
+                "opacity": 0.6
+            };
+            L.geoJson({{ trip.geometry.geojson | safe}}, { style: geoJsonStyle }).addTo(map);
+        }
+
+        function create_marker(map, latlng) {
+            var markerOptions = {
+                radius: 6,
+                fillColor: "#99cc99",
+                color: "#006633",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.5
+            };
+
+            var marker = L.circleMarker(latlng, markerOptions);
+            marker.latitude = latlng.lat;
+            marker.longitude = latlng.lng;
+            marker.addTo(map);
+            markers.push(marker);
+        }
+
+        initialize_map();
+        create_marker(map, new L.latLng({{stop.point.y}}, {{stop.point.x}}));
+
+        {% for s in stops %}
+        create_marker(map, new L.latLng({{s.point.y}}, {{s.point.x}}));
+        {% endfor %}
+
+        map.on('zoomend', function() {
+            var currentZoom = map.getZoom();
+            console.log(currentZoom);
+            for (var i = 0; i < markers.length; i++)
+            {
+                if (currentZoom > 14)
+                {
+                    markers[i].setRadius(6);
+                }
+                else
+                {
+                    markers[i].setRadius((6/currentZoom) * 6);
+                }
+            }
+        });
+    </script>
+{% endblock inline-js %}

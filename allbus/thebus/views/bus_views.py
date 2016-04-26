@@ -9,7 +9,7 @@ from django.http import HttpResponse
 import json
 from ..utilities.client import parse_xml_to_dict
 from ..utilities.client import TheBusClient
-from ..utilities.time import naive_to_timestamp
+from ..utilities.time_utilities import naive_to_timestamp
 
 
 def bus_details(request, bus):
