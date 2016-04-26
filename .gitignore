@@ -98,3 +98,4 @@ ENV/
 *.sqlite3
 
 staticfiles/
+bower_components/
