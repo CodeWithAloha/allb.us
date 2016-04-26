@@ -3,37 +3,44 @@
   <head>
     <meta charset="utf-8">
     <title>{% block title %}allb.us{% endblock title %}</title>
-
-    <meta name="title" content="allbus">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Sets initial viewport load and disables zooming  -->
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-
-    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#2196f3">
 
     {% compress css %}
     {% block css %}
-    <link href="{% static 'css/ratchet.min.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'bower_components/Framework7/dist/css/framework7.material.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'bower_components/Framework7/dist/css/framework7.material.colors.min.css' %}"/>
     <link href="{% static 'scss/project.scss' %}" rel="stylesheet" type="text/x-scss"/>
     {% endblock css %}
     {% endcompress %}
   </head>
   <body>
-    <header class="bar bar-nav">
-        <h1 class="title">{% block page_title %}AllBus{% endblock page_title %}</h1>
-    </header>
+    <div class="views">
+      <div class="view view-main">
+        <div class="pages navbar-fixed toolbar-fixed">
+          <div data-page="index" class="page">
 
-    <div class="content">
-        {% block content %}{% endblock content %}
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">All Bus</div>
+              </div>
+            </div>
+
+            <div class="page-content">
+            {% block content %}
+              <p>Page content goes here</p>
+            {% endblock content %}
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
 
     {% compress js %}
     {% block compressed-js %}
-        <script src="{% static 'js/ratchet.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bower_components/Framework7/dist/js/framework7.min.js' %}"/>
     {% endblock compressed-js %}
     {% endcompress %}
 
