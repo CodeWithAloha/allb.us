@@ -1,8 +1,0 @@
-# {{ ansible_managed }}
-
-[program:{{ application.deploy_name }}_app]
-autostart=true
-command=/usr/local/bin/uwsgi --ini /etc/uwsgi/apps-enabled/{{ application.deploy_name }}.ini
-stderr_logfile=/var/log/supervisord/{{ application.deploy_name }}-stderr.log
-stdout_logfile=/var/log/supervisord/{{ application.deploy_name }}-stdout.log
-user=root

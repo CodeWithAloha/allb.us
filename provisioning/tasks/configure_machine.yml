@@ -1,6 +1,0 @@
----
-  - name: allbus | configure_application.yml | create allbus user
-    user: name=allbus createhome=no shell=/sbin/nologin
-
-  - name: allbus | configure_application.yml | create allbus group
-    group: name=allbus
