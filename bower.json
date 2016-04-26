@@ -1,0 +1,27 @@
+{
+  "name": "allb.us",
+  "version": "0.0.0",
+  "homepage": "https://github.com/CodeforHawaii/allb.us",
+  "authors": [
+    "Ryan <ryankanno@localkinegrinds.com>"
+  ],
+  "description": "Tiny Bus App is Tiny",
+  "keywords": [
+    "hawaii",
+    "thebus",
+    "transit",
+    "allbus"
+  ],
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "allbus/static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Framework7": "framework7#~1.4.2"
+  }
+}
