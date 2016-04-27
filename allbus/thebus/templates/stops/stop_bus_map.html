@@ -87,5 +87,22 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
                 }
             }
         });
+
+        var ws = new WebSocket('{{ WEBSOCKET_URI }}foobar?subscribe-broadcast&publish-broadcast&echo');
+        ws.onopen = function() {
+            console.log("websocket connected");
+        };
+        ws.onmessage = function(e) {
+            console.log("Received: " + e.data);
+        };
+        ws.onerror = function(e) {
+            console.error(e);
+        };
+        ws.onclose = function(e) {
+            console.log("connection closed");
+        }
+        function send_message(msg) {
+            ws.send(msg);
+        }
     </script>
 {% endblock inline-js %}

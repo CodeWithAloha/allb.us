@@ -28,3 +28,6 @@ https://github.com/tulsawebdevs/django-multi-gtfs/archive/master.zip
 django-storages-redux
 django_compressor
 django-libsass
+
+# websockets
+django-websocket-redis

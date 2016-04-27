@@ -39,6 +39,7 @@ class Common(Configuration):
     THIRD_PARTY_APPS = (
         'compressor',
         'multigtfs',
+        'ws4redis',
     )
 
     LOCAL_APPS = (
@@ -74,12 +75,13 @@ class Common(Configuration):
                     'django.template.context_processors.request',
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
+                    'ws4redis.context_processors.default',
                 ],
             },
         },
     ]
 
-    WSGI_APPLICATION = 'config.wsgi.application'
+    WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 
     # Database
     # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
@@ -130,3 +132,7 @@ class Common(Configuration):
     )
 
     THEBUS_API_CLIENT_TOKEN = env('THEBUS_API_CLIENT_TOKEN', default=None)
+
+    WEBSOCKET_URL = '/ws/'
+    WS4REDIS_PREFIX = 'ws'
+    WS4REDIS_HEARTBEAT = '--heartbeat--'
