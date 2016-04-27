@@ -9,38 +9,16 @@
 
     {% compress css %}
     {% block css %}
-    <link rel="stylesheet" href="{% static 'bower_components/Framework7/dist/css/framework7.material.min.css' %}"/>
-    <link rel="stylesheet" href="{% static 'bower_components/Framework7/dist/css/framework7.material.colors.min.css' %}"/>
-    <link href="{% static 'scss/project.scss' %}" rel="stylesheet" type="text/x-scss"/>
+    <link href="{% static 'scss/project.scss' %}" rel="stylesheet" type="text/x-scss">
     {% endblock css %}
     {% endcompress %}
   </head>
   <body>
-    <div class="views">
-      <div class="view view-main">
-        <div class="pages navbar-fixed toolbar-fixed">
-          <div data-page="index" class="page">
-
-            <div class="navbar">
-              <div class="navbar-inner">
-                <div class="center">All Bus</div>
-              </div>
-            </div>
-
-            <div class="page-content">
-            {% block content %}
-              <p>Page content goes here</p>
-            {% endblock content %}
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+    {% block content %}
+    {% endblock content %}
 
     {% compress js %}
     {% block compressed-js %}
-    <script type="text/javascript" src="{% static 'bower_components/Framework7/dist/js/framework7.min.js' %}"/>
     {% endblock compressed-js %}
     {% endcompress %}
 

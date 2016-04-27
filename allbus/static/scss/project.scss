@@ -2,32 +2,7 @@ body {
     font-size:12px;
 }
 
-header {
-    h1.title {
-        background-color:#000;
-        color: #fff;
-    }
-    border-bottom: 1em solid #FCB040;
-}
-
-div.content {
-    background-color: #FCB040;
-    .table-view {
-        background-color:#f0f0f0;
-    }
-}
-
-div.route {
-    .bus {
-        font-size: .8em;
-    }
-}
-
-div.info {
-    margin-left: 2em;
-}
-
-div#map {
-    height: 100%;
-    width: 100%;
+#map {
+    height:800px;
+    width:100%;
 }

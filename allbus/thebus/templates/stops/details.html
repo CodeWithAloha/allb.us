@@ -5,13 +5,17 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
 {% endblock page_title %}
 
 {% block content %}
-<ul class="table-view">
-  <li class="table-view-cell">
-  {% for route_name in route_names %}
-  {{ route_name }}
-  {% endfor %}
-  </li>
-</ul>
+<div class="list-block">
+    <ul>
+      {% for route_name in route_names %}
+      <li class="item-content">
+        <div class="item-inner">
+            <div class="item-title">{{ route_name }}</div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+</div>
 
 <div class="list-block">
   <ul>
@@ -33,7 +37,7 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
     <div class="info item-inner">
         <h3 class="headsign item-title">{{ arrival.headsign }}</h3>
         <p class="arrival_time">
-        <span class="label">{{ arrival.stopTime }}</span>
+            <span class="label">{{ arrival.stopTime }}</span>
         </p>
     </div>
     {% if arrival.vehicle != '???' %}
