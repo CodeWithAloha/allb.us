@@ -5,26 +5,21 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
 {% endblock page_title %}
 
 {% block content %}
-<div class="list-block">
-    <ul>
-      {% for route_name in route_names %}
-      <li class="item-content">
-        <div class="item-inner">
-            <div class="item-title">{{ route_name }}</div>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
-</div>
+<ul class="table-view">
+  <li class="table-view-cell">
+  {% for route_name in route_names %}
+  {{ route_name }}
+  {% endfor %}
+  </li>
+</ul>
 
-<div class="list-block">
-  <ul>
+<ul class="table-view">
   {% for arrival in  arrivals %}
-    <li class="item-content">
+  <li class="table-view-cell">
     {% if arrival.vehicle != '???' %}
-    <a href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}" data-transition="slide-in">
+    <a class="navigate-right" href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}"> 
     {% endif %}
-    <div class="route item-media">
+    <div class="route pull-left">
         <h1>{{ arrival.route }}</h1>
         <p class="bus">
             {% if arrival.vehicle == '???' %}
@@ -34,17 +29,16 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
             {% endif %}
         </p>
     </div>
-    <div class="info item-inner">
-        <h3 class="headsign item-title">{{ arrival.headsign }}</h3>
-        <p class="arrival_time">
-            <span class="label">{{ arrival.stopTime }}</span>
+    <div class="info pull-left">
+        <h4 class="headsign">{{ arrival.headsign }}</h4>
+        <p class="arrival_time ui-li-desc">
+        <span class="label wait">{{ arrival.stopTime }}</span>
         </p>
     </div>
     {% if arrival.vehicle != '???' %}
     </a>
     {% endif %}
-    </li>
+  </li>
   {% endfor %}
-  </ul>
-</div>
+</ul>
 {% endblock content %}
