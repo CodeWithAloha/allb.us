@@ -17,7 +17,7 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
   {% for arrival in  arrivals %}
   <li class="table-view-cell">
     {% if arrival.vehicle != '???' %}
-    <a class="navigate-right" href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}"> 
+    <a class="navigate-right" href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}" data-ignore="push"> 
     {% endif %}
     <div class="route pull-left">
         <h1>{{ arrival.route }}</h1>
