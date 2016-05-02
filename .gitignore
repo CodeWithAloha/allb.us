@@ -99,4 +99,7 @@ ENV/
 
 staticfiles/
 bower_components/
+
+# Vagrant
 .vagrant/
+allbus.retry
