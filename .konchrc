@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+# vi: set ft=python :
+
+from configurations import importer
+importer.install()
+
+import django
+django.setup()
+
+from allbus.thebus.utilities.client import TheBusClient
+from allbus.thebus.models import TheBusStop
+from allbus.thebus.models import TheBusTrip
+from django.conf import settings
+import konch
+
+client = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
+
+konch.config({
+    'shell': 'ipython',
+    'context': {
+        'thebus_client': client,
+        'gtfs_vehicle_locations': client.get_gtfs_vehicle_location(),
+        'gtfs_vehicle_trip_updates': client.get_gtfs_trip_updates(),
+        'gtfs_vehicle_service_alerts': client.get_gtfs_service_alerts(),
+        'get_arrivals': lambda x: client.get_arrivals(x),
+        'TheBusTrip': TheBusTrip,
+        'TheBusStop': TheBusStop
+    },
+    'ipy_autoreload': True
+})
+
+# vim: filetype=python
