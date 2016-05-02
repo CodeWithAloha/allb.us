@@ -1,0 +1,28 @@
+---
+  - name: allbus | install_dependencies.yml | install python
+    include: install_python.yml
+    tags: python
+
+  - name: allbus | install_dependencies.yml | install nginx
+    include: install_nginx.yml
+    tags: nginx
+
+  - name: allbus | install_dependencies.yml | install uwsgi
+    include: install_uwsgi.yml
+    tags: uwsgi
+
+  - name: allbus | install_dependencies.yml | install supervisor
+    include: install_supervisor.yml
+    tags: supervisor
+
+  - name: allbus | install_dependencies.yml | install postgresql
+    include: install_postgresql.yml
+    tags: postgresql
+
+  - name: allbus | install_dependencies.yml | install postgis
+    include: install_postgis.yml
+    tags: postgis
+
+  - name: allbus | install_dependencies.yml | install redis
+    include: install_redis.yml
+    tags: redis

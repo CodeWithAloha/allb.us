@@ -1,0 +1,98 @@
+nginx:
+  package: nginx
+  version: 1.10.0-1~xenial
+  conf:
+    src_path: templates/nginx.conf.j2
+    vars:
+      user: www-data
+      pid: /var/run/nginx.pid
+      max_clients: 8096
+      access_log: /var/log/nginx/access.log
+      error_log: /var/log/nginx/error.log
+  vhosts_conf: # list that contains {src_path, target_name}
+    - src_path: templates/allbus.nginx.conf.j2
+      target_name: "{{ application.deploy_name }}.conf"
+
+uwsgi:
+  package: uwsgi
+  version: 2.0.12
+  logs_path: /var/log/uwsgi
+  apps_conf: # list that contains {src_path, target_name}
+    - src_path: templates/allbus.uwsgi.ini.j2
+      target_name: "{{ application.deploy_name }}.ini"
+      envs: "{{ django_env }}"
+
+supervisor:
+  package: supervisor
+  version: 3.2.3
+  conf:
+    src_path: templates/supervisord.conf.j2
+  logs_path: /var/log/supervisord
+  apps_conf: # list that contains {src_path, target_name}
+    - src_path: templates/allbus.supervisor.conf.j2
+      target_name: "{{ application.deploy_name }}.conf"
+
+postgresql:
+  version: 9.4
+  port: 5432
+  admin:
+    username: postgres
+  users:
+    - name: allbus
+      password: allbus
+
+redis:
+  package: redis-server
+  version: 2:3.0.6-1
+  config_dir: /etc/redis
+  user: redis
+  group: redis
+  config:
+    num_databases: 16
+    password:
+    pid_file: /var/run/redis.pid
+    port: 6379
+    working_dir: /var/db/redis
+
+django_env:
+  DJANGO_SETTINGS_MODULE: config.settings.vagrant
+  DJANGO_SECRET_KEY: codeforhawaiiisamazing
+  DATABASE_URL: postgis://allbus:allbus@localhost:5432/allbus_db
+
+env:
+  http_proxy:
+  https_proxy:
+  ftp_proxy:
+
+# application variables used in specific conf files
+application:
+  name: allbus
+  hostname: allb.us
+  user: allbus
+  group: allbus
+  port: 50808
+  deploy_name: allbus_production
+  deploy:
+    app_path: "{{ ad_deploy_to }}/app"
+    venvs_path: "{{ ad_deploy_to }}/venvs"
+    static_path: "{{ ad_deploy_to }}/app/current/public"
+
+ad_deploy_from: "{{ lookup('env', 'ALLBUS_DIR') }}"
+ad_deploy_to: "/var/www/applications/allbus_production"
+ad_release_version: ""
+ad_releases_to_keep: 2
+ad_dependencies:
+  - package: git
+    version: 1:2.7.4-0ubuntu1
+  - package: python2.7
+    version: 2.7.11-7ubuntu1
+  - package: python-pip
+    version: 8.1.1-2
+  - package: python-virtualenv
+    version: 15.0.1+ds-3
+  - package: python-dev
+    version: 2.7.11-1
+  - package: libxml2-dev
+    version: 2.9.3+dfsg1-1
+  - package: libxslt1-dev
+    version: 1.1.28-2.1

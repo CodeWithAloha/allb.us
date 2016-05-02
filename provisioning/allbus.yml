@@ -1,0 +1,23 @@
+---
+  - hosts: all
+    sudo: yes
+    tasks:
+      - name: allbus | allbus.yml | configure machine
+        include: tasks/configure_machine.yml
+        tags: install
+
+      - name: allbus | allbus.yml | install dependencies
+        include: tasks/install_dependencies.yml
+        tags: install
+
+      - name: allbus | allbus.yml | deploy application
+        include: tasks/deploy_application.yml
+        tags: deploy
+
+      - name: allbus | allbus.yml | restart supervisor
+        supervisorctl: name="{{ application.deploy_name }}_app" state=restarted config=/etc/supervisor/supervisord.conf
+        tags: deploy
+
+      - name: allbus | allbus.yml | restart nginx
+        service: name=nginx state=restarted
+        tags: deploy

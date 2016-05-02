@@ -99,3 +99,4 @@ ENV/
 
 staticfiles/
 bower_components/
+.vagrant/

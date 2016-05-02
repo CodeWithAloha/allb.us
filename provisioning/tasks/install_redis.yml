@@ -1,0 +1,23 @@
+---
+  - name: allbus | install_redis.yml >> redis present
+    apt: pkg={{ redis.package }}={{ redis.version }} state=present
+
+  - name: allbus | install_redis.yml >> create redis group
+    group: name={{ redis .group }} state=present system=yes
+    when: redis.group is defined and redis.group
+
+  - name: allbus | install_redis.yml >> create redis user
+    user: name={{ redis.user }} group={{ redis.group }} createhome=no shell=/bin/false system=yes state=present
+    when: redis.user is defined and redis.user
+
+  - name: allbus | install_redis.yml >> redis working dir exists
+    file: path={{ redis.config.working_dir }} state=directory mode=0755 group={{ redis.group }} owner={{ redis.user }}
+    when: redis.config.working_dir is defined and redis.config.working_dir and redis.group is defined and redis.group and redis.user is defined and redis.user
+
+  - name: allbus | install_redis.yml >> redis server conf present
+    template: src=allbus.redis.conf.j2 dest={{ redis.config_dir }}/redis.conf group={{ redis.group }} owner={{ redis.user }}
+    when: redis.config_dir is defined and redis.config_dir and redis.group is defined and redis.group and redis.user is defined and redis.user
+
+  - name: allbus | install_redis.yml >> redis server local conf present
+    template: src=allbus.redis.local.conf.j2 dest={{ redis.config_dir }}/allbus.conf group={{ redis.group }} owner={{ redis.user }}
+    when: redis.config_dir is defined and reids.config_dir and redis.group is defined and redis.group and redis.user is defined and redis.user
