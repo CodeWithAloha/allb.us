@@ -14,7 +14,6 @@
       - python-psycopg2
       - python-pycurl
       - locales
-      - libpq-dev
     environment: "{{ env }}"
 
   - name: allbus | install_postgresql.yml | install postgresql
@@ -22,6 +21,7 @@
     with_items:
       - "postgresql-{{postgresql.version}}"
       - "postgresql-client-{{postgresql.version}}"
+      - "postgresql-server-dev-{{postgresql.version}}"
       - "postgresql-contrib-{{postgresql.version}}"
     environment: "{{ env }}"
 

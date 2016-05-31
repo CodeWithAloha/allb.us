@@ -55,9 +55,10 @@ redis:
     working_dir: /var/db/redis
 
 django_env:
-  DJANGO_SETTINGS_MODULE: config.settings.vagrant
+  DJANGO_SETTINGS_MODULE: config.settings
+  DJANGO_CONFIGURATION: Vagrant
   DJANGO_SECRET_KEY: codeforhawaiiisamazing
-  DATABASE_URL: postgis://allbus:allbus@localhost:5432/allbus_db
+  DJANGO_DATABASE_URL: postgis://allbus:allbus@localhost:5432/allbus_db
 
 env:
   http_proxy:
@@ -87,7 +88,7 @@ ad_dependencies:
   - package: python2.7
     version: 2.7.11-7ubuntu1
   - package: python-pip
-    version: 8.1.1-2
+    version: 8.1.1-2ubuntu0.1
   - package: python-virtualenv
     version: 15.0.1+ds-3
   - package: python-dev
@@ -96,3 +97,6 @@ ad_dependencies:
     version: 2.9.3+dfsg1-1
   - package: libxslt1-dev
     version: 1.1.28-2.1
+  - package: libgeos++-dev
+    version: 3.5.0-1ubuntu2
+

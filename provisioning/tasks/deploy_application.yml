@@ -87,17 +87,39 @@
     when: ad_releases_to_keep > 0
 
 # Last mile configuration
-  - name: allbus | deploy_application.yml | install database template
-    command: "sudo -u postgres {{ ad_release_path.stdout }}/etc/create_template_postgis-2.1.sh"
-    ignore_errors: yes
+  #- name: allbus | deploy_application.yml | install database template
+    #command: "sudo -u postgres {{ ad_release_path.stdout }}/etc/create_template_postgis-2.2.sh"
+    #ignore_errors: yes
+
+  - name: allbus | deploy_application.yml | ensure template_postgis database exists
+    postgresql_db:
+      name: template_postgis
+      encoding: "UTF-8"
+      lc_collate: "en_US.utf8"
+      lc_ctype: "en_US.utf8"
+      template: "template0"
+      state: present
+      login_user: "{{ postgresql.admin.username }}"
+    register: createdb_template_postgis
+    sudo_user: "{{ postgresql.admin.username }}"
+
+  - name: allbus | deploy_application.yml |  make template_postgis a template
+    command: psql -d template_postgis -c "UPDATE pg_database SET datistemplate=true WHERE datname='template_postgis';"
+    when: createdb_template_postgis.changed
+    sudo_user: "{{ postgresql.admin.username }}"
+
+  - name: allbus | deploy_application.yml |  make template_postgis a template
+    command: psql -d template_postgis -c "CREATE EXTENSION postgis;"
+    when: createdb_template_postgis.changed
+    sudo_user: "{{ postgresql.admin.username }}"
 
   - name: allbus | deploy_application.yml | ensure allbus database
     postgresql_db:
       name: "allbus_db"
       owner: "allbus"
       encoding: "UTF-8"
-      lc_collate: "en_US.UTF-8"
-      lc_ctype: "en_US.UTF-8"
+      lc_collate: "en_US.utf8"
+      lc_ctype: "en_US.utf8"
       port: "{{postgresql.port}}"
       template: "template_postgis"
       state: present
@@ -116,11 +138,11 @@
     sudo: yes
     sudo_user: "{{ postgresql.admin.username }}"
 
-  - name: allbus | deploy_application.yml | run syncdb
+  - name: allbus | deploy_application.yml | run migrate
     django_manage:
       app_path: "{{ ad_release_path.stdout }}"
       virtualenv: "{{ ad_venv_release_path.stdout }}"
-      command: syncdb
+      command: migrate
     environment: "{{ django_env }}"
 
   - name: allbus | deploy_application.yml | run collect static
