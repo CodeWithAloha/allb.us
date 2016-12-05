@@ -11,13 +11,13 @@ Vagrant.configure(2) do |config|
   config.vm.box_check_update = false
   config.vm.define "allbus_vm"
 
-  config.vm.network "private_network", ip: "192.168.50.50"
+  config.vm.network "private_network", ip: "192.168.50.50", auto_config: false
   config.vm.network "forwarded_port", guest: 80, host: 50808, auto_correct: true
 
   config.vm.provider "virtualbox" do |vm|
     vm.name = "allbus_vm"
-    vm.cpus = 2
-    vm.memory = 2048
+    vm.cpus = 4
+    vm.memory = 8192
   end
 
   config.vm.provision "ansible" do |ansible|
