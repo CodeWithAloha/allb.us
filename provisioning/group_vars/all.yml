@@ -77,7 +77,7 @@ application:
   deploy:
     app_path: "{{ ad_deploy_to }}/app"
     venvs_path: "{{ ad_deploy_to }}/venvs"
-    static_path: "{{ ad_deploy_to }}/app/current/public"
+    static_path: "{{ ad_deploy_to }}/app/current/staticfiles"
 
 ad_deploy_from: "{{ lookup('env', 'ALLBUS_DIR') }}"
 ad_deploy_to: "/var/www/applications/allbus_production"
@@ -100,4 +100,3 @@ ad_dependencies:
     version: 1.1.28-2.1
   - package: libgeos++-dev
     version: 3.5.0-1ubuntu2
-

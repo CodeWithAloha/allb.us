@@ -27,14 +27,16 @@ server {
     gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript;
     gzip_disable "MSIE [1-6].(?!.*SV1)";
 
-	location = /robots.txt  { access_log off; log_not_found off; }
-	location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+    location = /favicon.ico { access_log off; log_not_found off; }
 
     location /static {
         alias {{ application.deploy.static_path }};
     }
 
     location / {
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://www.google-analytics.com; img-src 'self' http://www.google-analytics.com http://*.basemaps.cartocdn.com; style-src 'self' 'unsafe-inline' https://assets.zendesk.com https://fonts.googleapis.com https://assets.zendesk.com; font-src 'self' https://themes.googleusercontent.com http://www.google-analytics.com; object-src 'none'";
+
         include /etc/nginx/uwsgi_params;
         uwsgi_pass {{ application.hostname }};
         uwsgi_param Host $host;
