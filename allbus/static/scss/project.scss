@@ -12,9 +12,6 @@ header {
 
 div.content {
     background-color: #FCB040;
-    .table-view {
-        background-color:#f0f0f0;
-    }
 }
 
 div.route {
@@ -28,6 +25,12 @@ div.info {
 }
 
 div#map {
-    height: 100%;
-    width: 100%;
+    height:1920px;
+    width:1080px;
+}
+
+.stop-icon {
+    background-color: #FCB040;
+    border:1px solid #000;
+    text-align:center;
 }

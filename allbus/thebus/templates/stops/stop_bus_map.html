@@ -8,10 +8,22 @@
 {% endblock css %}
 
 {% block page_title %}
-Stop {{ stop.stop_id }} @ {{ stop.name }}
+Map of Stop {{ stop.stop_id }} @ {{ stop.name }}
 {% endblock page_title %}
 
 {% block content %}
+<div id="stops">
+    <ul>
+    {% for s in stops %}
+        <li>
+            {% if stop.stop_id == s.stop_id %}
+            {% else %}
+            <a href="{% url 'thebus:stop_details_no_route' s.stop_id %}">{{ s.stop_id}} - {{s.name}}</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 <div id="map"></div>
 {% endblock content %}
 
@@ -60,32 +72,25 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
             }).addTo(map);
         }
 
-        function create_marker(map, latlng) {
-            var markerOptions = {
-                radius: 6,
-                fillColor: "#99cc99",
-                color: "#006633",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.5
-            };
-
-            var marker = L.circleMarker(latlng, markerOptions);
-            marker.latitude = latlng.lat;
-            marker.longitude = latlng.lng;
+        function create_marker(map, stop_id, stop_url, latlng) {
+            var iconPointX = (stop_id.toString().length > 3) ? 30 : 24;
+            var iconHtml = '<a href="' + stop_url + '">' + stop_id + '</a>';
+            var divIcon = L.divIcon({className: 'stop-icon', iconSize: new L.Point(iconPointX,18), html: iconHtml});
+            var markerOptions = { icon: divIcon };
+            var marker = L.marker(latlng, markerOptions);
             marker.addTo(map);
             markers.push(marker);
         }
 
         initialize_map();
 
-        create_marker(map, new L.latLng({{stop.point.y}}, {{stop.point.x}}));
+        create_marker(map, {{stop.stop_id}}, "{% url "thebus:stop_details_no_route" stop.stop_id %}", new L.latLng({{stop.point.y}}, {{stop.point.x}}));
 
-        var stops = [{% for s in stops %}[{{s.point.y}}, {{s.point.x}}],{% endfor %}];
+        var stops = [{% for s in stops %}[{{s.point.y}}, {{s.point.x}}, {{s.stop_id}}, "{% url "thebus:stop_details_no_route" s.stop_id %}",],{% endfor %}];
 
         for (var i = 0; i < stops.length; i++)
         {
-            create_marker(map, new L.latLng(stops[i][0], stops[i][1]));
+            create_marker(map, stops[i][2], stops[i][3], new L.latLng(stops[i][0], stops[i][1]));
         }
 
         map.on('zoomend', function() {

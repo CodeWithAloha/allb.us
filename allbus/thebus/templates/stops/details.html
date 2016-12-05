@@ -5,21 +5,21 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
 {% endblock page_title %}
 
 {% block content %}
-<ul class="table-view">
-  <li class="table-view-cell">
+<ul>
+  <li>
   {% for route_name in route_names %}
   {{ route_name }}
   {% endfor %}
   </li>
 </ul>
 
-<ul class="table-view">
+<ul>
   {% for arrival in  arrivals %}
-  <li class="table-view-cell">
+  <li>
     {% if arrival.vehicle != '???' %}
-    <a class="navigate-right" href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}" data-ignore="push"> 
+    <a href="{% url 'thebus:stop_bus_map' stop.stop_id arrival.route arrival.vehicle arrival.trip %}" data-ignore="push"> 
     {% endif %}
-    <div class="route pull-left">
+    <div class="route">
         <h1>{{ arrival.route }}</h1>
         <p class="bus">
             {% if arrival.vehicle == '???' %}
@@ -29,10 +29,10 @@ Stop {{ stop.stop_id }} @ {{ stop.name }}
             {% endif %}
         </p>
     </div>
-    <div class="info pull-left">
+    <div class="info">
         <h4 class="headsign">{{ arrival.headsign }}</h4>
-        <p class="arrival_time ui-li-desc">
-        <span class="label wait">{{ arrival.stopTime }}</span>
+        <p class="arrival_time">
+        <span class="wait">{{ arrival.stopTime }}</span>
         </p>
     </div>
     {% if arrival.vehicle != '???' %}
