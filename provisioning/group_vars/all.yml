@@ -59,6 +59,7 @@ django_env:
   DJANGO_CONFIGURATION: Vagrant
   DJANGO_SECRET_KEY: codeforhawaiiisamazing
   DJANGO_DATABASE_URL: postgis://allbus:allbus@localhost:5432/allbus_db
+  THEBUS_API_CLIENT_TOKEN: "{{ lookup('env', 'THEBUS_API_CLIENT_TOKEN') }}"
 
 env:
   http_proxy:
