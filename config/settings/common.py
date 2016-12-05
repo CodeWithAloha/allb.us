@@ -42,6 +42,7 @@ class Common(Configuration):
     )
 
     LOCAL_APPS = (
+        'allbus.www',
         'allbus.thebus',
         'allbus.exploreapp',
     )

@@ -14,6 +14,9 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
+    # Web urls
+    url(r'^', include("allbus.www.urls")),
+
     # Allbus urls
     url(r'^', include("allbus.thebus.urls")),
 
