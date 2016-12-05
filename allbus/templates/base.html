@@ -9,7 +9,6 @@
 
     {% compress css %}
     {% block css %}
-    <link href="{% static 'css/ratchet.min.css' %}" rel="stylesheet">
     <link href="{% static 'scss/project.scss' %}" rel="stylesheet" type="text/x-scss">
     {% endblock css %}
     {% endcompress %}
@@ -17,7 +16,9 @@
   <body>
 
     <header class="bar bar-nav">
-      <h1 class="title">AllBus</h1>
+        <h1 class="title">
+            <a href="{% url 'www:slash' %}"><img src="{% static 'img/icon-allbus.png' %}"/></a>
+        </h1>
     </header>
 
     <div class="content">
@@ -27,7 +28,6 @@
 
     {% compress js %}
     {% block compressed-js %}
-    <script src="{% static 'js/ratchet.min.js' %}" type="text/javascript"></script>
     {% endblock compressed-js %}
     {% endcompress %}
 
