@@ -5,9 +5,12 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls import url
 from django.conf.urls.static import static
-from django.views.generic import TemplateView
-
 from django.contrib import admin
+from django.views.defaults import bad_request
+from django.views.defaults import page_not_found
+from django.views.defaults import permission_denied
+from django.views.defaults import server_error
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -26,12 +29,14 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns += [
         url(r'^__debug__/', include(debug_toolbar.urls))
     ]
+
     urlpatterns += [
-        url(r'^400/$', 'django.views.defaults.bad_request'),
-        url(r'^403/$', 'django.views.defaults.permission_denied'),
-        url(r'^404/$', 'django.views.defaults.page_not_found'),
-        url(r'^500/$', 'django.views.defaults.server_error'),
+        url(r'^400/$', bad_request),
+        url(r'^403/$', permission_denied),
+        url(r'^404/$', page_not_found),
+        url(r'^500/$', server_error)
     ]

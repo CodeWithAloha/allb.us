@@ -58,7 +58,7 @@ def stop_details(request, stop_id, route=None):
 def stop_nearby(request, latitude, longitude):
     stops = TheBusStop.objects.nearby(float(latitude), float(longitude))
     stops_as_json = [s.to_dict() for s in stops] if stops else []
-    return HttpResponse(json.dumps(stops_as_json), mimetype="application/json")
+    return HttpResponse(json.dumps(stops_as_json), content_type="application/json")
 
 
 def stop_search(request):
@@ -71,7 +71,7 @@ def stop_search(request):
         'query': query
     }
 
-    return HttpResponse(json.dumps(output), mimetype="application/json")
+    return HttpResponse(json.dumps(output), content_type="application/json")
 
 
 def stop_bus_map(request, stop_id, route, bus, trip_id):

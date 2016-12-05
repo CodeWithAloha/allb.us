@@ -86,15 +86,15 @@ ad_dependencies:
   - package: git
     version: 1:2.7.4-0ubuntu1
   - package: python2.7
-    version: 2.7.11-7ubuntu1
+    version: 2.7.12-1ubuntu0~16.04.1
   - package: python-pip
-    version: 8.1.1-2ubuntu0.1
+    version: 8.1.1-2ubuntu0.4
   - package: python-virtualenv
     version: 15.0.1+ds-3
   - package: python-dev
     version: 2.7.11-1
   - package: libxml2-dev
-    version: 2.9.3+dfsg1-1
+    version: 2.9.3+dfsg1-1ubuntu0.1
   - package: libxslt1-dev
     version: 1.1.28-2.1
   - package: libgeos++-dev

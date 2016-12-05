@@ -86,8 +86,7 @@ class Common(Configuration):
     # http://django-configurations.readthedocs.org/en/latest/values/#configurations.values.DatabaseURLValue
 
     DATABASES = {
-        'default': env.db("DJANGO_DATABASE_URL",
-                          default="postgis://allbus:allbus@localhost/allbus"),
+        'default': env.db("DJANGO_DATABASE_URL", default="postgis://allbus:allbus@localhost/allbus_db"),
     }
 
     # Internationalization

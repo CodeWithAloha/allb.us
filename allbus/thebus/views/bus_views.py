@@ -26,7 +26,7 @@ def bus_details(request, bus):
             vehicle['last_message_ts'] = naive_to_timestamp(
                 naive_datetime, tz='Pacific/Honolulu')
 
-        return HttpResponse(json.dumps(vehicle), mimetype="application/json")
+        return HttpResponse(json.dumps(vehicle), content_type="application/json")
     else:
         raise Http404("Unable to find Bus {}".format(str(bus)))
 
