@@ -38,6 +38,7 @@ class Common(Configuration):
 
     THIRD_PARTY_APPS = (
         'compressor',
+        'corsheaders',
         'multigtfs',
     )
 
@@ -50,6 +51,7 @@ class Common(Configuration):
     INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
     MIDDLEWARE_CLASSES = (
+        'corsheaders.middleware.CorsMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',

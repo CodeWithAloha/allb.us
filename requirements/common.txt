@@ -29,6 +29,9 @@ django-storages-redux
 django_compressor
 django-libsass
 
+# cors
+django-cors-headers
+
 # allb.us
 protobuf
 beautifulsoup4

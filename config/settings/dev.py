@@ -14,3 +14,5 @@ class Dev(Common):
                             default='/opt/local/lib/libgdal.dylib')
     POSTGIS_VERSION = env("DJANGO_POSTGIS_VERSION",
                           default=(2, 2, 1))
+
+    CORS_ORIGIN_ALLOW_ALL = True
