@@ -18,7 +18,7 @@ def all_buses(request):
     vl = [{'id': v.id,
            'latitude': v.vehicle.position.latitude,
            'longitude': v.vehicle.position.longitude} for v in gtfs_vl.entity]
-    return HttpResponse(gtfs_vl, content_type="application/json")
+    return HttpResponse(json.dumps(vl), content_type="application/json")
 
 
 def bus_details(request, bus):
