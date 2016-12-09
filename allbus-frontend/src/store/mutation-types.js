@@ -1,0 +1,2 @@
+export const GET_STOP_DETAILS = 'GET_STOP_DETAILS'
+export const GET_STOP_BUS_MAP = 'GET_STOP_BUS_MAP'
