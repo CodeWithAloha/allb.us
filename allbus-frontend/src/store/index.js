@@ -26,7 +26,8 @@ const state = {
     geojson: ''
   },
   vehicle: {
-  }
+  },
+  buses: []
 }
 
 export default new Vuex.Store({

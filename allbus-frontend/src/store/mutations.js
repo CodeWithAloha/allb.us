@@ -15,5 +15,8 @@ export default {
     state.route.stops = stopBusMap.stops
     state.trip = stopBusMap.trip
     state.vehicle = stopBusMap.vehicle
+  },
+  [types.GET_ALL_BUSES] (state, { allBuses }) {
+    state.buses = allBuses
   }
 }

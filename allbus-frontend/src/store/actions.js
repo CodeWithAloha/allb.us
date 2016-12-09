@@ -12,3 +12,9 @@ export function getStopBusMap ({ commit }, { stopId, routeId, tripId, busId }) {
     commit(types.GET_STOP_BUS_MAP, { stopBusMap })
   })
 }
+
+export function getAllBuses ({ commit }) {
+  return api.getAllBuses().then((allBuses) => {
+    commit(types.GET_ALL_BUSES, { allBuses })
+  })
+}

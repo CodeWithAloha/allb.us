@@ -29,3 +29,14 @@ export function getStopBusMap (stopId, routeId, tripId, busId) {
       return {}
     })
 }
+
+export function getAllBuses () {
+  return axios.get('/buses')
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      console.log(error)
+      return {}
+    })
+}

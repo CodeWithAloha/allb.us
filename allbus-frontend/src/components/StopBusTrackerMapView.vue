@@ -96,7 +96,7 @@ export default {
       })
       markers.push(marker)
     },
-    createVehicleMarker (latlng) {
+    createVehicleMarker (routeId, latlng) {
       var busIcon = L.icon({
         iconUrl: '/static/img/maps/bus.png',
         shadowUrl: '/static/img/maps/bus-shadow.png',
@@ -106,7 +106,7 @@ export default {
         shadowAnchor: [13, 40]  // the same for the shadow
       })
 
-      L.marker(latlng, {icon: busIcon}).bindTooltip(this.$route.params.routeId, {permanent: true, direction: 'top', offset: L.point(5, -32), className: 'route-tooltip'}).addTo(this.map)
+      L.marker(latlng, {icon: busIcon}).bindTooltip(routeId, {permanent: true, direction: 'top', offset: L.point(5, -32), className: 'route-tooltip'}).addTo(this.map)
     }
   },
   beforeMount () {
@@ -120,7 +120,7 @@ export default {
         }
 
         if (vm.$store.state.vehicle) {
-          vm.createVehicleMarker(new L.LatLng(vm.$store.state.vehicle.latitude, vm.$store.state.vehicle.longitude))
+          vm.createVehicleMarker(vm.$route.params.routeId, new L.LatLng(vm.$store.state.vehicle.latitude, vm.$store.state.vehicle.longitude))
           var bounds = []
           bounds.push(new L.LatLng(vm.$store.state.stop.point.y, vm.$store.state.stop.point.x))
           bounds.push(new L.LatLng(vm.$store.state.vehicle.latitude, vm.$store.state.vehicle.longitude))
