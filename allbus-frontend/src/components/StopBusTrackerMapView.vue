@@ -105,7 +105,8 @@ export default {
         iconAnchor: [13, 40], // point of the icon which will correspond to marker's location
         shadowAnchor: [13, 40]  // the same for the shadow
       })
-      L.marker(latlng, {icon: busIcon}).addTo(this.map)
+
+      L.marker(latlng, {icon: busIcon}).bindTooltip(this.$route.params.routeId, {permanent: true, direction: 'top', offset: L.point(5, -32), className: 'route-tooltip'}).addTo(this.map)
     }
   },
   beforeMount () {
@@ -177,6 +178,23 @@ export default {
   }
   div.current-stop-icon {
     background-color: #FCB040;
+  }
+
+  .route-tooltip {
+    border:0;
+    background-color: #FCB040;
+    color:#000;
+    padding:0;
+    width:28px;
+    text-align:center;
+    font-weight:bold;
+  }
+
+  .leaflet-tooltip-top {
+    padding:0;
+  }
+  .leaflet-tooltip-top::before {
+    content: none;
   }
 
 </style>
