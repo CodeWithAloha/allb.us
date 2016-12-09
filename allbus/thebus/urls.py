@@ -32,6 +32,10 @@ urlpatterns = [
         name="stop_nearby"),
 
     # bus views
+    url(r'^buses/?$',
+        bus_views.all_buses,
+        name="all_buses"),
+
     url(r'^buses/(?P<bus>[\d]+)/?$',
         bus_views.bus_details,
         name="bus_details"),

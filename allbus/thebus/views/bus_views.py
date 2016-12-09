@@ -12,6 +12,15 @@ from ..utilities.client import TheBusClient
 from ..utilities.time_utilities import naive_to_timestamp
 
 
+def all_buses(request):
+    c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
+    gtfs_vl = c.get_gtfs_vehicle_location()
+    vl = [{'id': v.id,
+           'latitude': v.vehicle.position.latitude,
+           'longitude': v.vehicle.position.longitude} for v in gtfs_vl.entity]
+    return HttpResponse(gtfs_vl, content_type="application/json")
+
+
 def bus_details(request, bus):
     c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
     v_json = c.track_vehicle(int(bus), parse_xml_to_dict)
