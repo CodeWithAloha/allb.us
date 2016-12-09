@@ -23,6 +23,10 @@ urlpatterns = [
         stop_views.stop_bus_map,
         name="stop_bus_map"),
 
+    url(r'^(?P<stop_id>\d+):(?P<route>[a-zA-Z0-9]+)/trip/(?P<trip_id>[\d\w\.]+)/?$',
+        stop_views.stop_bus_map,
+        name="stop_bus_map"),
+
     url(r'^es/near/(?P<latitude>[\-\.0-9]+)/(?P<longitude>[\-\.0-9]+)/?$',
         stop_views.stop_nearby,
         name="stop_nearby"),

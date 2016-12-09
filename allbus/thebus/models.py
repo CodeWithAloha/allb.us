@@ -59,6 +59,9 @@ class TheBusTrip(Trip):
     def to_dict(self):
         return {
             'trip_id': self.trip_id,
+            'route_id': self.route.route_id,
+            'route_shortname': self.route.short_name,
+            'route_longname': self.route.long_name,
             'geojson': json.loads(self.geometry.geojson),
             'headsign': self.headsign
         }

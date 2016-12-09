@@ -52,7 +52,8 @@ def stop_details(request, stop_id, route=None):
 
     output['route_names'] = list(TheBusStop.objects.get_route_names(stop_id))
 
-    return render(request, 'stops/details.html', output)
+    # return render(request, 'stops/details.html', output)
+    return HttpResponse(json.dumps(output), content_type="application/json")
 
 
 def stop_nearby(request, latitude, longitude):
@@ -74,19 +75,24 @@ def stop_search(request):
     return HttpResponse(json.dumps(output), content_type="application/json")
 
 
-def stop_bus_map(request, stop_id, route, bus, trip_id):
-    c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
+def stop_bus_map(request, stop_id, route, trip_id, bus = None):
     s = get_object_or_404(TheBusStop, stop_id=stop_id)
-    v = c.track_vehicle(int(bus), parse_vehicle_xml_to_dict)
-
-    vehicle = v.get('vehicles', None)
-    vehicle = vehicle[0] if len(vehicle) == 1 else vehicle
-
     trip = TheBusTrip.objects.get(trip_id=trip_id)
     stops = trip.get_stops()
 
-    output = {'stop': s, 'vehicle': vehicle, 'trip': trip, 'stops': stops}
-    return render(request, 'stops/stop_bus_map.html', output)
+    if bus:
+        c = TheBusClient(settings.THEBUS_API_CLIENT_TOKEN)
+        v = c.track_vehicle(int(bus), parse_vehicle_xml_to_dict)
+        vehicle = v.get('vehicles', None)
+        vehicle = vehicle[0] if len(vehicle) == 1 else vehicle
+    else:
+        vehicle = None
+
+    output = {'stop': s.to_dict(),
+              'vehicle': vehicle,
+              'trip': trip.to_dict(),
+              'stops': [{'stop_id': s.stop_id, 'name': s.name, 'point': { 'x': s.point.x, 'y': s.point.y}} for s in stops]}
+    return HttpResponse(json.dumps(output), content_type="application/json")
 
 
 # vim: filetype=python
