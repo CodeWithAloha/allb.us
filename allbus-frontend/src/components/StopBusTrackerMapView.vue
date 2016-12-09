@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div v-if="stops && !loading">
     <page-title :title="'Bus Tracker ' + this.$route.params.busId + ' | Route ' + this.$route.params.routeId + ' | Stop ' + stop.stop_id + ' Map'" v-if="this.$route.params.busId"></page-title>
     <page-title :title="'Route ' + this.$route.params.routeId + ' | Stop ' + stop.stop_id + ' Map'" v-else></page-title>
-    <h1>Stops on Route {{ this.$route.params.routeId }}</h1>
+    <h1>Stops along Route {{ this.$route.params.routeId }}</h1>
     <div id="stops">
       <ul>
         <li v-for="(s, index) in stops" class="stop">
@@ -16,6 +16,10 @@
     </div>
     <div id="map"></div>
   </div>
+  <div v-else-if="loading">
+    <p> Loading Stops along Route {{ this.$route.params.routeId }}</p>
+    <div id="map"></div>
+  </div>
 </template>
 
 <style src="../../static/leaflet/leaflet.css"></style>
@@ -26,6 +30,13 @@ import 'leaflet-polylinedecorator'
 
 export default {
   name: 'stop-bus-tracker-map',
+  data () {
+    return {
+      loading: true,
+      map: null,
+      markers: []
+    }
+  },
   computed: {
     stop () {
       return this.$store.state.stop
@@ -66,7 +77,7 @@ export default {
         resolve()
       })
     },
-    createMarker (markers, stopId, stopUrl, latlng) {
+    createStopMarker (markers, stopId, stopUrl, latlng) {
       var vm = this
       var iconPointX = stopId.toString().length * 8
       var ele = document.createElement('a')
@@ -84,22 +95,38 @@ export default {
         vm.$router.push({name: 'stopDetails', params: {stopId: e.target._icon.firstChild.id}})
       })
       markers.push(marker)
+    },
+    createVehicleMarker (latlng) {
+      var busIcon = L.icon({
+        iconUrl: '/static/img/maps/bus.png',
+        shadowUrl: '/static/img/maps/bus-shadow.png',
+        iconSize: [48, 40], // size of the icon
+        shadowSize: [48, 40], // size of the shadow
+        iconAnchor: [13, 40], // point of the icon which will correspond to marker's location
+        shadowAnchor: [13, 40]  // the same for the shadow
+      })
+      L.marker(latlng, {icon: busIcon}).addTo(this.map)
     }
   },
   beforeMount () {
     var vm = this
     this.$store.dispatch('getStopBusMap', { stopId: vm.$route.params.stopId, routeId: vm.$route.params.routeId, tripId: vm.$route.params.tripId, busId: vm.$route.params.busId }).then(() => {
+      vm.loading = false
       this.initializeMap(vm.$store.state.stop.point.y, vm.$store.state.stop.point.x, vm.$store.state.trip.geojson).then(function (response) {
-        vm.createMarker(vm.markers, vm.$store.state.stop.stop_id, '', new L.LatLng(vm.$store.state.stop.point.y, vm.$store.state.stop.point.x))
+        vm.createStopMarker(vm.markers, vm.$store.state.stop.stop_id, '', new L.LatLng(vm.$store.state.stop.point.y, vm.$store.state.stop.point.x))
         for (var i = 0; i < vm.$store.state.route.stops.length; i++) {
-          vm.createMarker(vm.markers, vm.$store.state.route.stops[i].stop_id, '', new L.LatLng(vm.$store.state.route.stops[i].point.y, vm.$store.state.route.stops[i].point.x))
+          vm.createStopMarker(vm.markers, vm.$store.state.route.stops[i].stop_id, '', new L.LatLng(vm.$store.state.route.stops[i].point.y, vm.$store.state.route.stops[i].point.x))
+        }
+
+        if (vm.$store.state.vehicle) {
+          vm.createVehicleMarker(new L.LatLng(vm.$store.state.vehicle.latitude, vm.$store.state.vehicle.longitude))
+          var bounds = []
+          bounds.push(new L.LatLng(vm.$store.state.stop.point.y, vm.$store.state.stop.point.x))
+          bounds.push(new L.LatLng(vm.$store.state.vehicle.latitude, vm.$store.state.vehicle.longitude))
+          vm.map.fitBounds(bounds)
         }
       })
     })
-  },
-  mounted () {
-    this.map = null
-    this.markers = []
   }
 }
 </script>

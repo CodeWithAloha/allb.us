@@ -24,6 +24,8 @@ const state = {
   trip: {
     headsign: '',
     geojson: ''
+  },
+  vehicle: {
   }
 }
 

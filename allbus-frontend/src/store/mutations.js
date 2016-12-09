@@ -14,5 +14,6 @@ export default {
     state.stop.point.y = stopBusMap.stop.latitude
     state.route.stops = stopBusMap.stops
     state.trip = stopBusMap.trip
+    state.vehicle = stopBusMap.vehicle
   }
 }
