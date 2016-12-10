@@ -1,21 +1,19 @@
 <template>
   <div id="app">
     <header>
-      <h1>
-        <router-link :to="{ name: 'slash'}"><img src="../static/img/icon-allbus.png" height="64" width="64" /></router-link>
-      </h1>
+      <router-link :to="{ name: 'slash'}"><img src="../static/img/icon-allbus.png" height="64" width="64" /></router-link>
     </header>
     <div id="separator"></div>
     <div class="content">
       <router-view></router-view>
     </div>
     <footer>
-        <router-link :to="{ name: 'about'}">About</router-link>
+      <router-link :to="{ name: 'about'}">About</router-link>
     </footer>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import './variables.scss';
 
 body {
@@ -28,14 +26,10 @@ body {
   font-family: $app-font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   header {
     text-align:center;
     background-color:#000;
-    h1 {
-      margin: 0 auto;
-      padding: 0;
-      a { border:0; margin:0; padding:0; display:inline-block;}
-    }
   }
 
   div#separator {
@@ -44,13 +38,13 @@ body {
   }
 
   div.content {
-    padding: 1em;
+    padding: $content-padding;
   }
 
   footer {
     clear: both;
     text-align:center;
-    padding:1em;
+    padding: $footer-padding;
     a { text-decoration: none;}
   }
 }
