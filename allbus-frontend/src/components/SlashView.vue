@@ -8,6 +8,10 @@
     <p>
       If you don't know the stop number or cross streets and have a GPS-enabled phone, click here, and we'll do our best to find the closest bus stop near you. 
     </p>
+
+    <hr/>
+
+    <favorites-list v-bind:favorites="this.favorites"></favorites-list>
   </div>
 </template>
 
@@ -16,7 +20,15 @@ export default {
   name: 'slash',
   data () {
     return {
+      loading: true,
+      favorites: []
     }
+  },
+  beforeMount () {
+    this.$store.dispatch('getFavorites').then(() => {
+      this.favorites = this.$store.state.favorites
+      this.loading = false
+    })
   },
   methods: {
     searchStops (e) {

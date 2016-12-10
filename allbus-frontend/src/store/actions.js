@@ -18,3 +18,23 @@ export function getBuses ({ commit }) {
     commit(types.GET_BUSES, { allBuses })
   })
 }
+
+export function getFavorites ({ commit }) {
+  return api.getFavorites().then((favorites) => {
+    commit(types.GET_FAVORITES, { favorites })
+  })
+}
+
+export function addFavorite ({ commit, dispatch }, { stopId, stopName }) {
+  return api.addFavorite(stopId, stopName).then(() => {
+    commit(types.ADD_FAVORITE, { stopId, stopName })
+    dispatch('getFavorites')
+  })
+}
+
+export function removeFavorite ({ commit, dispatch }, stopId) {
+  return api.removeFavorite(stopId).then(() => {
+    commit(types.REMOVE_FAVORITE, { stopId })
+    dispatch('getFavorites')
+  })
+}

@@ -7,6 +7,7 @@ import mutations from './mutations'
 Vue.use(Vuex)
 
 const state = {
+  favorites: [],
   stop: {
     stop_id: '',
     name: '',

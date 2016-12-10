@@ -18,5 +18,12 @@ export default {
   },
   [types.GET_BUSES] (state, { allBuses }) {
     state.buses = allBuses
+  },
+  [types.GET_FAVORITES] (state, { favorites }) {
+    state.favorites = favorites
+  },
+  [types.ADD_FAVORITE] (state, { favorite }) {
+  },
+  [types.REMOVE_FAVORITE] (state, { stopId }) {
   }
 }

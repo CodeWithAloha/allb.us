@@ -1,3 +1,7 @@
 export const GET_STOP_DETAILS = 'GET_STOP_DETAILS'
 export const GET_STOP_BUS_MAP = 'GET_STOP_BUS_MAP'
 export const GET_BUSES = 'GET_BUSES'
+
+export const GET_FAVORITES = 'GET_FAVORITES'
+export const ADD_FAVORITE = 'ADD_FAVORITE'
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE'

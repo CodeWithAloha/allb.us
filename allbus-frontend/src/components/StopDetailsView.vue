@@ -1,7 +1,12 @@
 <template>
   <div v-if="stop.name && !loading">
     <page-title :title="'Stop ' + stop.stop_id + ' @ ' + stop.name"></page-title>
-    <h1>Stop {{ stop.stop_id }} @ {{ stop.name }}</h1>
+    <div id="stop">
+      <h1>
+        Stop {{ stop.stop_id }} @ {{ stop.name }}
+      </h1>
+      <favorites-button :favorites="favorites" :currentStopId="parseInt(stop.stop_id)" :currentStopName="stop.name" v-on:favorite-updated="updateFavorites"></favorites-button>
+    </div>
     <ul id="routes">
       <li v-for="(route_name, index) in sortedRouteNames" class="route">
         {{ route_name }}
@@ -53,7 +58,8 @@ export default {
   name: 'stop-details',
   data () {
     return {
-      loading: true
+      loading: true,
+      favorites: this.$store.state.favorites
     }
   },
   computed: {
@@ -62,6 +68,11 @@ export default {
     },
     sortedRouteNames () {
       return this.$store.getters.sortedRouteNames
+    }
+  },
+  methods: {
+    updateFavorites () {
+      this.favorites = this.$store.state.favorites
     }
   },
   beforeMount () {
@@ -83,12 +94,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  h1 {
-    margin:0;
-    padding:0;
+  div#stop {
+    h1 {
+      margin:0;
+      padding:0;
+      font-weight:bold;
+      font-size:2em;
+      display:inline;
+      float:left;
+    }
+    button {
+      float:right;
+    }
+    overflow: auto;
+    width: 100%;
     border-bottom:1px solid black;
-    font-weight:bold;
-    font-size:2em;
   }
   ul#routes {
     margin:0;

@@ -40,3 +40,30 @@ export function getBuses () {
       return {}
     })
 }
+
+export function getFavorites () {
+  return new Promise(function (resolve, reject) {
+    return resolve(JSON.parse(window.localStorage.getItem('favorites') || '[]'))
+  })
+}
+
+export function addFavorite (stopId, stopName) {
+  return new Promise(function (resolve, reject) {
+    var favorites = JSON.parse(window.localStorage.getItem('favorites') || '[]')
+    var favorite = {'stopId': stopId, 'stopName': stopName}
+    favorites.push(favorite)
+    window.localStorage.setItem('favorites', JSON.stringify(favorites))
+    return resolve(favorite)
+  })
+}
+
+export function removeFavorite (stopId) {
+  return new Promise(function (resolve, reject) {
+    var favorites = JSON.parse(window.localStorage.getItem('favorites') || '[]')
+    var favoritesFiltered = (favorites) ? favorites.filter(function (el) {
+      return el.stopId !== stopId
+    }) : []
+    window.localStorage.setItem('favorites', JSON.stringify(favoritesFiltered))
+    return resolve(stopId)
+  })
+}
