@@ -132,7 +132,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   div#stops {
     float:left;
     text-align:left;

@@ -59,7 +59,7 @@ export default {
   },
   beforeMount () {
     var vm = this
-    this.$store.dispatch('getAllBuses').then(() => {
+    this.$store.dispatch('getBuses').then(() => {
       vm.loading = false
       var randoBus = vm.$store.state.buses[0]
       this.initializeMap(randoBus.latitude, randoBus.longitude).then(function (response) {
@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
   div#map {
     width: 1074px;

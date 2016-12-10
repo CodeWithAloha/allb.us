@@ -1,4 +1,3 @@
-
 function natCmp (a, b) {
   var ra = a.match(/\D+|\d+/g)
   var rb = b.match(/\D+|\d+/g)

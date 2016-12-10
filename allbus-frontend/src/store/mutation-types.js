@@ -1,3 +1,3 @@
 export const GET_STOP_DETAILS = 'GET_STOP_DETAILS'
 export const GET_STOP_BUS_MAP = 'GET_STOP_BUS_MAP'
-export const GET_ALL_BUSES = 'GET_ALL_BUSES'
+export const GET_BUSES = 'GET_BUSES'
