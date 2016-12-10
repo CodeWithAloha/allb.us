@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './variables.scss';
 
 body {
