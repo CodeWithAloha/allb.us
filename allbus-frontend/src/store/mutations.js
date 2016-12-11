@@ -2,10 +2,13 @@ import * as types from './mutation-types'
 
 export default {
   [types.GET_STOP_DETAILS] (state, { stopDetails }) {
-    state.stop.stop_id = stopDetails.stop.stop_id
-    state.stop.name = stopDetails.stop.name
-    state.stop.arrivals = stopDetails.arrivals
-    state.stop.route_names = stopDetails.route_names
+    var newStop = {
+      'stop_id': stopDetails.stop.stop_id,
+      'name': stopDetails.stop.name,
+      'arrivals': stopDetails.arrivals,
+      'route_names': stopDetails.route_names
+    }
+    state.stop = newStop
   },
   [types.GET_STOP_BUS_MAP] (state, { stopBusMap }) {
     state.stop.stop_id = stopBusMap.stop.stop_id
