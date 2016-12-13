@@ -21,3 +21,7 @@ function natCmp (a, b) {
 export function sortedRouteNames (state) {
   return state.stop.route_names.sort(natCmp)
 }
+
+export function getCurrentLanguage (state) {
+  return state.current_language
+}

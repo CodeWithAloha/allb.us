@@ -67,3 +67,17 @@ export function removeFavorite (stopId) {
     return resolve(stopId)
   })
 }
+
+export function getLanguage (locale) {
+  let url = `http://localhost:8080/static/locales/locale-${locale}.json`
+
+  return axios.get(url)
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      console.log(error)
+      return {}
+    })
+}
+

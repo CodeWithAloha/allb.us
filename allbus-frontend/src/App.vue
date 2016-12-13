@@ -2,6 +2,7 @@
   <div id="app">
     <header>
       <router-link :to="{ name: 'slash'}"><img src="../static/img/icon-allbus.png" height="64" width="64" /></router-link>
+      <button type="submit" @click="setLanguage(getLanguage())">Set language</button>
     </header>
     <div id="separator"></div>
     <div class="content">
@@ -12,6 +13,30 @@
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'app',
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  methods: {
+    getLanguage () {
+      if (this.$store.getters.getCurrentLanguage === 'en') {
+        return 'ja'
+      } else {
+        return 'en'
+      }
+    },
+    setLanguage (language) {
+      this.$store.dispatch('setLanguage', {'store': this, 'locale': language})
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 @import './variables.scss';

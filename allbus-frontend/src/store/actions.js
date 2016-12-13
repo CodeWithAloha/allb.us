@@ -38,3 +38,16 @@ export function removeFavorite ({ commit, dispatch }, stopId) {
     dispatch('getFavorites')
   })
 }
+
+export function setLanguage ({ commit }, { store, locale }) {
+  if (store.$i18n.exists(locale)) {
+    store.$i18n.set(locale)
+    commit(types.SET_CURRENT_LANGUAGE, { locale })
+  } else {
+    return api.getLanguage(locale).then((data) => {
+      store.$i18n.add(locale, data)
+      store.$i18n.set(locale)
+      commit(types.SET_CURRENT_LANGUAGE, { locale })
+    })
+  }
+}

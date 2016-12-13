@@ -28,5 +28,8 @@ export default {
   [types.ADD_FAVORITE] (state, { favorite }) {
   },
   [types.REMOVE_FAVORITE] (state, { stopId }) {
+  },
+  [types.SET_CURRENT_LANGUAGE] (state, { locale }) {
+    state.current_language = locale
   }
 }
