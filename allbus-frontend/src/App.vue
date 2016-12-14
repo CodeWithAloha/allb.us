@@ -9,7 +9,7 @@
       <router-view></router-view>
     </div>
     <footer>
-      <router-link :to="{ name: 'about'}">{{ $t('footer-about') }}</router-link>
+      <a href="http://thebus.org" rel="external nofollow" target="_blank">thebus</a> · <a href="tel:8088485555">(808) 848-5555</a> · <router-link :to="{ name: 'about'}">{{ $t('footer-about') }}</router-link>
     </footer>
   </div>
 </template>
