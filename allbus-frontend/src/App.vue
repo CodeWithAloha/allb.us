@@ -2,14 +2,14 @@
   <div id="app">
     <header>
       <router-link :to="{ name: 'slash'}"><img src="../static/img/icon-allbus.png" height="64" width="64" /></router-link>
-      <button type="submit" @click="setLanguage(getLanguage())">Set language</button>
+      <button type="submit" @click="setLanguage(getOtherLanguage())">Set language</button>
     </header>
     <div id="separator"></div>
     <div class="content">
       <router-view></router-view>
     </div>
     <footer>
-      <router-link :to="{ name: 'about'}">About</router-link>
+      <router-link :to="{ name: 'about'}">{{ $t('footer-about') }}</router-link>
     </footer>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
   computed: {
   },
   methods: {
-    getLanguage () {
+    getOtherLanguage () {
       if (this.$store.getters.getCurrentLanguage === 'en') {
         return 'ja'
       } else {
@@ -34,6 +34,9 @@ export default {
     setLanguage (language) {
       this.$store.dispatch('setLanguage', {'store': this, 'locale': language})
     }
+  },
+  beforeMount () {
+    this.setLanguage(this.$store.getters.getCurrentLanguage)
   }
 }
 </script>

@@ -1,6 +1,23 @@
 <template>
   <div>
     <page-title title="About"></page-title>
+    <h1>Howzit!</h1>
+    <p>
+      I'm just a local boy trying to help the 808 catch theBus.
+    </p>
+    <h2>Shout outs</h2>
+    <p>
+      I'd love to thank everyone who's helped make this app possible:
+      <ul>
+        <li>Valentino Valdez</li>
+        <li>Forest Frizzell</li>
+        <li>Aaron Landry</li>
+        <li>Jacob Miller</li>
+        <li>Shelly Bonoan</li>
+        <li>Eri Suzuki</li>
+        <li>And of course... you!</li>
+      </ul>
+    </p>
   </div>
 </template>
 

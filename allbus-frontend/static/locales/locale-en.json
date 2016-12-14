@@ -1,3 +1,8 @@
 {
-  "Bus stop placard": "Bus stop placard"
+  "yellow-placard-page-title": "Bus stop placard",
+  "yellow-placard-photo-credit": "Picture courtesy of <a href=\"http://twitter.com/sarakata\" rel=\"external\">Sara Kanno</a>",
+  "slash-search-input-placeholder": "Enter stop (e.g. 125) or street",
+  "slash-placard-instructions": "Every Honolulu bus stop has a <a href=\"%(placard_url)s\">yellow placard</a> that contains a unique stop number.  Please enter the number above.  If you can't find the placard, feel free to enter your cross street, e.g. Punchbowl and King.",
+  "favorites-none": "You have no favorite stops.",
+  "footer-about": "About"
 }

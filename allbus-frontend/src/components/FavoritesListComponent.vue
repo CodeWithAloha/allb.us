@@ -1,6 +1,6 @@
 <template>
   <div v-if="favorites.length === 0">
-    <p> You have no favorite stops </p>
+    <p> {{ $t('favorites-none') }}</p>
   </div>
   <div v-else>
     <h1>Your Favs</h1>
