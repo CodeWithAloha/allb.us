@@ -58,6 +58,10 @@ body {
   header {
     text-align:center;
     background-color:#000;
+    button {
+      position:absolute;
+      right:0;
+    }
   }
 
   div#separator {
