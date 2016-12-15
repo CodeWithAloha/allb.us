@@ -52,13 +52,13 @@ def stop_details(request, stop_id, route=None):
 
     output['route_names'] = list(TheBusStop.objects.get_route_names(stop_id))
 
-    # return render(request, 'stops/details.html', output)
     return HttpResponse(json.dumps(output), content_type="application/json")
 
 
 def stop_nearby(request, latitude, longitude):
     stops = TheBusStop.objects.nearby(float(latitude), float(longitude))
     stops_as_json = [s.to_dict() for s in stops] if stops else []
+
     return HttpResponse(json.dumps(stops_as_json), content_type="application/json")
 
 
@@ -92,6 +92,7 @@ def stop_bus_map(request, stop_id, route, trip_id, bus = None):
               'vehicle': vehicle,
               'trip': trip.to_dict(),
               'stops': [{'stop_id': s.stop_id, 'name': s.name, 'point': { 'x': s.point.x, 'y': s.point.y}} for s in stops]}
+
     return HttpResponse(json.dumps(output), content_type="application/json")
 
 
