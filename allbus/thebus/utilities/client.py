@@ -49,8 +49,10 @@ class TheBusClient(object):
         endpoint = self._get_endpoint('/arrivals', query_params)
         return self._call_endpoint(endpoint, callback)
 
-    def track_vehicle(self, vehicle_id, callback=None):
-        query_params = {'key': self.api_key, 'num': vehicle_id}
+    def track_vehicle(self, vehicle_id=None, callback=None):
+        query_params = {'key': self.api_key}
+        if vehicle_id:
+            query_params['num'] = vehicle_id
         endpoint = self._get_endpoint('/vehicle', query_params)
         return self._call_endpoint(endpoint, callback)
 
