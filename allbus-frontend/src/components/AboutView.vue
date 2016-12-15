@@ -15,6 +15,7 @@
         <li>Jacob Miller</li>
         <li>Shelly Bonoan</li>
         <li>Eri Suzuki</li>
+        <li><a href="http://codingmonkey.io" target="_blank">Andrew Wong</a></li>
         <li>And of course... you!</li>
       </ul>
     </p>
