@@ -15,7 +15,7 @@ import RavenVue from 'raven-js/plugins/vue'
 
 Vue.config.debug = true
 
-axios.defaults.baseURL = 'http://localhost:8008'
+axios.defaults.baseURL = 'http://localhost:50808'
 Vue.prototype.$http = axios
 
 Vue.component('page-title', TitleComponent)
