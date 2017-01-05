@@ -44,10 +44,18 @@ export default {
 <style lang="scss">
 @import './variables.scss';
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: $body-bg-color;
   margin:0 auto;
   font-size: $body-font-size;
+  min-height: 100%;
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
 }
 
 #app {
@@ -71,6 +79,7 @@ body {
 
   div.content {
     padding: $content-padding;
+    flex: 1;
   }
 
   footer {
