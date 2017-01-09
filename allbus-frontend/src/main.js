@@ -6,7 +6,6 @@ import router from './router'
 import store from './store'
 import App from './App'
 
-import TitleComponent from './components/TitleComponent'
 import FavoritesComponent from './components/FavoritesComponent'
 import FavoritesListComponent from './components/FavoritesListComponent'
 
@@ -18,7 +17,6 @@ Vue.config.debug = true
 axios.defaults.baseURL = 'http://localhost:50808'
 Vue.prototype.$http = axios
 
-Vue.component('page-title', TitleComponent)
 Vue.component('favorites-list', FavoritesListComponent)
 Vue.component('favorites-button', FavoritesComponent)
 

@@ -1,7 +1,5 @@
 <template>
   <div v-if="stops && !loading">
-    <page-title :title="'Bus Tracker ' + this.$route.params.busId + ' | Route ' + this.$route.params.routeId + ' | Stop ' + stop.stop_id + ' Map'" v-if="this.$route.params.busId"></page-title>
-    <page-title :title="'Route ' + this.$route.params.routeId + ' | Stop ' + stop.stop_id + ' Map'" v-else></page-title>
     <h1>Stops along Route {{ this.$route.params.routeId }}</h1>
     <div id="stops">
       <ul>
@@ -30,6 +28,14 @@ import 'leaflet-polylinedecorator'
 
 export default {
   name: 'stop-bus-tracker-map',
+  metaInfo () {
+    return {
+      title: (this.$route.params.busId) ? 'Bus Tracker ' + this.$route.params.busId + ' | Route ' + this.$route.params.routeId + ' | Stop ' + this.stop.stop_id + ' Map' : 'Route ' + this.$route.params.routeId + ' | Stop ' + this.stop.stop_id + ' Map',
+      meta: [
+        { name: 'description', content: 'Bus Tracker' }
+      ]
+    }
+  },
   data () {
     return {
       loading: true,

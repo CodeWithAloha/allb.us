@@ -1,6 +1,5 @@
 <template>
   <div>
-    <page-title title="About"></page-title>
     <h1>Howzit!</h1>
     <p>
       I'm just a local boy trying to help the 808 catch theBus.
@@ -23,6 +22,15 @@
 </template>
 
 <script>
+export default {
+  name: 'about',
+  metaInfo: {
+    title: 'About | All Bus',
+    meta: [
+      { name: 'description', content: 'About' }
+    ]
+  }
+}
 </script>
 
 <style lang="scss">

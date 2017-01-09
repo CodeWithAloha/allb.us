@@ -1,6 +1,5 @@
 <template>
   <div v-if="stop.name && !loading">
-    <page-title :title="'Stop ' + stop.stop_id + ' @ ' + stop.name"></page-title>
     <div id="stop">
       <h1>
         Stop {{ stop.stop_id }} @ {{ stop.name }}
@@ -56,6 +55,14 @@
 <script>
 export default {
   name: 'stop-details',
+  metaInfo () {
+    return {
+      title: 'Stop ' + this.stop.stop_id + ' @ ' + this.stop.name,
+      meta: [
+        { name: 'description', content: 'Stop Details' }
+      ]
+    }
+  },
   data () {
     return {
       loading: true,

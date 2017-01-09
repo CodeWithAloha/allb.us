@@ -1,6 +1,5 @@
 <template>
   <div>
-    <page-title title="All Bus"></page-title>
     <input id="stop_or_street" name="stop_or_street" :placeholder="$t('slash-search-input-placeholder')" type="text" @keydown.enter.prevent="searchStops">
     <p>
       Every Honolulu bus stop has a <router-link :to="{ name: 'yellowPlacard'}">yellow placard</router-link> that contains a unique stop number. Please enter the number above. If you can't find the placard, feel free to enter your cross street, e.g. Punchbowl and King. 
@@ -18,6 +17,12 @@
 <script>
 export default {
   name: 'slash',
+  metaInfo: {
+    title: 'All Bus',
+    meta: [
+      { name: 'description', content: 'Home' }
+    ]
+  },
   data () {
     return {
       loading: true,

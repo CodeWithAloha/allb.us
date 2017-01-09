@@ -1,11 +1,9 @@
 <template>
   <div v-if="buses && !loading">
-    <page-title title="All Bus"></page-title>
     <h1>All Bus(es)</h1>
     <div id="map"></div>
   </div>
   <div v-else-if="loading">
-    <page-title title="All Bus"></page-title>
     <p>Finding ze Buses</p>
     <div id="map"></div>
   </div>
@@ -19,6 +17,12 @@ import 'leaflet-polylinedecorator'
 
 export default {
   name: 'all-bus',
+  metaInfo: {
+    title: 'All Bus(es) | All Bus',
+    meta: [
+      { name: 'description', content: 'All Bus(es)' }
+    ]
+  },
   data () {
     return {
       loading: true,
